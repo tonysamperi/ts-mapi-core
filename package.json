@@ -1,0 +1,88 @@
+{
+  "name": "@tonysamperi/ts-mapi-core",
+  "version": "1.0.0",
+  "description": "A set of shared utils to be used at BE or FE",
+  "type": "module",
+  "types": "./dist/esm/index.d.ts",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.cts",
+        "default": "./dist/cjs/index.cjs"
+      },
+      "browser": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist/**",
+    "changelog.md"
+  ],
+  "scripts": {
+    "build:dev": "NODE_ENV=development node build.config",
+    "build": "NODE_ENV=production node build.config",
+    "build:cjs": "webpack --config webpack.cjs.config.cjs --stats verbose",
+    "lint": "eslint && tsc --noEmit",
+    "release": "npm publish",
+    "release:beta": "npm publish --tag beta",
+    "release:next": "npm publish --tag next",
+    "test": "jest"
+  },
+  "author": "Tony Samperi",
+  "license": "ISC",
+  "peerDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.758.0",
+    "@aws-sdk/util-dynamodb": "^3.758.0",
+    "class-transformer": "^0.5.1",
+    "firebase": "^11.4.0",
+    "reflect-metadata": "^0.1.14",
+    "rxjs": "^7.5.6",
+    "ts-luxon": "^6.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.758.0",
+    "@aws-sdk/util-dynamodb": "^3.758.0",
+    "@pollyjs/adapter-fetch": "^6.0.6",
+    "@pollyjs/core": "^6.0.6",
+    "@pollyjs/persister-fs": "^6.0.6",
+    "@tonysamperi/krypto": "^1.0.0",
+    "@tonysamperi/logger": "^2.0.0",
+    "@types/jest": "~29.5.14",
+    "@types/node": "^22.13.8",
+    "@types/setup-polly-jest": "^0",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
+    "class-transformer": "^0.5.1",
+    "esbuild": "^0.25.1",
+    "eslint": "^9.21.0",
+    "firebase": "^11.4.0",
+    "glob": "^11.0.1",
+    "jest": "~29.7.0",
+    "reflect-metadata": "^0.1.14",
+    "replace-in-file": "^8.3.0",
+    "rxjs": "^7.5.6",
+    "setup-polly-jest": "^0.11.0",
+    "ts-jest": "^29.2.6",
+    "ts-loader": "^9.5.1",
+    "ts-luxon": "^6.0.0",
+    "tslib": "^2.8.1",
+    "tsup": "^8.4.0",
+    "typescript": "~5.8.2",
+    "typescript-eslint": "^8.26.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
+    "zod": "^3.22.4"
+  },
+  "packageManager": "yarn@4.3.1"
+}

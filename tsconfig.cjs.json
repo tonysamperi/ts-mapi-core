@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "./tsconfig.json"
+  ],
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "outDir": "dist/cjs"
+  },
+  "exclude": [
+    "src/index.ts"
+  ]
+}
