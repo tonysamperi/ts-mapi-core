@@ -1,17 +1,9 @@
 import {Expose, plainToInstance} from "class-transformer";
+//
+import {SmpErrorResponseCreateOpts} from "./smp-error-response-build-opts.interface";
 import {SmpGenericResponseBase} from "./smp-generic-response-base.interface";
 import {SmpGenericResponse} from "./smp-generic-response.class";
 import {SmpResponseMessage} from "./smp-response-message.class";
-//
-
-type ResponseMessageUnion = string | SmpResponseMessage;
-
-interface SmpErrorResponseCreateOpts<T> {
-    messages: ResponseMessageUnion | ResponseMessageUnion[];
-    errorCode: number | string;
-    status: number;
-    data: T;
-}
 
 function getDefaultMessages() {
     return [new SmpResponseMessage("GENERIC_ERROR")];
@@ -47,7 +39,7 @@ export class SmpErrorResponse<T = any> extends SmpGenericResponse<T, SmpGenericR
      * @see SmpErrorResponse.create
      */
     static build<T>(
-        messages: ResponseMessageUnion | ResponseMessageUnion[] = getDefaultMessages(),
+        messages: SmpErrorResponseCreateOpts<any>["messages"] = getDefaultMessages(),
         errorCode?: number | string,
         status?: number,
         data?: T
