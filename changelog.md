@@ -1,3 +1,6 @@
+## 1.2.0
+* Add smpRxjsCatchOnly operator
+
 ## 1.1.0
 * Expose SmpErrorResponseCreateOpts
 
