@@ -38,8 +38,8 @@ import {SmpFirebaseErrors} from "../../shared/firebase/smp-firebase-errors.enum.
 import {SmpFirebaseServiceConfig} from "./smp-firebase-service-config.interface.js";
 
 export class SmpFirebaseService {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    static get instance(): SmpFirebaseService {
+
+    static get INSTANCE(): SmpFirebaseService {
         if (!(this._instance instanceof SmpFirebaseService)) {
             throw Error(`${this.constructor.name} instance doesn't exist! Call ${this.constructor.name}.init first!`);
         }

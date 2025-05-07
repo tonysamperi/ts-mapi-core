@@ -7,8 +7,9 @@ export * from "./shared/giftcard/index.js";
 export * from "./shared/marketing-cloud/index.js";
 export * from "./shared/firebase/index.js";
 export * from "./shared/utils/index.js";
-export * from "./services/http/index.js";
+// Since it's an interface, it cannot be exported below
 export {SmpFirebaseServiceConfig} from "./services/firebase/smp-firebase-service-config.interface.js";
+export * from "./services/http/index.js";
 // Dynamic exports
 export declare const smpRxjsCatchOnly: typeof import("./shared/rxjs/index.js").smpRxjsCatchOnly;
 export declare const smpRxjsThrowIfEmpty: typeof import("./shared/rxjs/index.js").smpRxjsThrowIfEmpty;

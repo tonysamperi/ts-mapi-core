@@ -1,3 +1,7 @@
+## 1.4.0
+* Breaking change: SmpFirebaseService.instance now is SmpFirebaseService.INSTANCE
+* Improved build to emit decorators
+
 ## 1.3.0
 * Cleanup dependencies
 
