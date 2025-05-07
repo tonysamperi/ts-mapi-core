@@ -10,6 +10,5 @@ export * from "./shared/firebase/index.js";
 export * from "./shared/rxjs/index.js";
 export * from "./shared/utils/index.js";
 //
-export {SmpFirebaseServiceConfig} from "./services/firebase/index.js";
-export {SmpFirebaseService} from "./services/firebase/smp-firebase.service.js";
+export * from "./services/firebase/index.js";
 export {SmpDynamoService} from "./services/smp-dynamo.service.js";
