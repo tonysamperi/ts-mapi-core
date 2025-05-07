@@ -21,8 +21,8 @@ export class SmpGiftcardTransaction implements SmpGiftcardTransactionPlain {
         "5f6eae61d2428b99",
         "d92fbf214e16a79fd36f9a5185ae733f"
     );
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     protected static _LOGGER: SmpLoggerMethods = console;
-
     // eslint-disable-next-line @typescript-eslint/naming-convention
     protected static _OP_CODES: Record<SmpGiftcardTransactionOps, string> = {
         [SmpGiftcardTransactionOps.CHECK]: "", // Doesn't need transaction
