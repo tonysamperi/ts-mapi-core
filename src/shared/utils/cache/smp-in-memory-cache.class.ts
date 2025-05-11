@@ -1,26 +1,27 @@
-import {SmpCacheStrategy} from "./smp-cache-strategy.interface.js";
+import {SmpAbstractTtlCacheStrategy} from "./smp-abstract-ttl-cache-strategy.class.js";
 
-export class SmpInMemoryCache implements SmpCacheStrategy {
+export class SmpInMemoryCache extends SmpAbstractTtlCacheStrategy {
 
     private static _storage = new Map<string, unknown>();
 
-    get staticStorage() {
-        return (this.constructor as typeof SmpInMemoryCache)._storage;
+    protected get _staticSelf(): typeof SmpInMemoryCache {
+        return (this.constructor as typeof SmpInMemoryCache);
     }
 
-    flush(): void {
-        this.staticStorage.clear();
+    protected _flushRaw(): void {
+        this._staticSelf._storage.clear();
     }
 
-    read<T = unknown>(key: string): T | undefined {
-        return this.staticStorage.get(key) as T;
+    protected _readRaw(key: string): unknown | undefined {
+        return this._staticSelf._storage.get(key);
     }
 
-    remove(key: string): void {
-        this.staticStorage.delete(key);
+    protected _removeRaw(key: string): void {
+        this._staticSelf._storage.delete(key);
     }
 
-    write<T = unknown>(key: string, value: T): void {
-        this.staticStorage.set(key, value);
+    protected _writeRaw(key: string, value: unknown): void {
+        this._staticSelf._storage.set(key, value);
     }
+
 }

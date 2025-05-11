@@ -1,11 +1,11 @@
 import {DateTime} from "ts-luxon";
 //
-import {SmpSidRaw} from "./smp-gcpsid-raw.interface.js";
+import {SmpCachedValue} from "./cache";
 
 /**
  * A util to generate session ids
  */
-export class SmpSid implements SmpSidRaw {
+export class SmpSid implements SmpCachedValue<string> {
 
     get active() {
         return this.value.endsWith(this._controlSuffix);
@@ -21,17 +21,17 @@ export class SmpSid implements SmpSidRaw {
 
     protected _controlSuffix: string = "$1";
 
-    constructor(public value: string = `gcpsid-xxxx-${+DateTime.now().ts}`,
+    constructor(public value: string = `sid-xxxx-${+DateTime.now().ts}`,
                 public expiry: number = 0) {
     }
 
 
-    static parse(raw: SmpSidRaw): SmpSid {
+    static parse(raw: SmpCachedValue<string>): SmpSid {
 
         return new SmpSid(raw.value, raw.expiry);
     }
 
-    toPlain(): SmpSidRaw {
+    toPlain(): SmpCachedValue<string> {
         return {
             value: this.value,
             expiry: this.expiry

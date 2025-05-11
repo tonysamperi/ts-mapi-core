@@ -1,3 +1,10 @@
+## 1.5.0
+* Fixed smpRxjsCatchOnly catching derived classes 
+* Improved dramatically smpZodDateTime that now works like a native definition with concatenation
+* Improved cache utils to support TTL (in seconds)
+* Added SmpCachedValue (removed SmpSidRaw)
+* Added more automatic tests
+
 ## 1.4.0
 * Breaking change: SmpFirebaseService.instance now is SmpFirebaseService.INSTANCE
 * Improved build to emit decorators

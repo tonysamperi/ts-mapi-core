@@ -19,7 +19,7 @@ interface ParseableErrorClass<T> {
 
 export class SmpHttpService {
 
-    protected static _cachePrefix: string = "kik_rest_cache_";
+    protected static _cachePrefix: string = "smp_rest_cache_";
     protected static _cacheStrategy: SmpCacheStrategy = typeof sessionStorage !== "undefined"
         ? new SmpHttpSessionStorageCache()
         : new SmpInMemoryCache();
