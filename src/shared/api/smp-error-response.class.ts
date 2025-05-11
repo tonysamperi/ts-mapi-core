@@ -1,9 +1,9 @@
 import {Expose, plainToInstance} from "class-transformer";
 //
-import {SmpErrorResponseCreateOpts} from "./smp-error-response-build-opts.interface";
-import {SmpGenericResponseBase} from "./smp-generic-response-base.interface";
-import {SmpGenericResponse} from "./smp-generic-response.class";
-import {SmpResponseMessage} from "./smp-response-message.class";
+import {SmpErrorResponseCreateOpts} from "./smp-error-response-build-opts.interface.js";
+import {SmpGenericResponseBase} from "./smp-generic-response-base.interface.js";
+import {SmpGenericResponse} from "./smp-generic-response.class.js";
+import {SmpResponseMessage} from "./smp-response-message.class.js";
 
 function getDefaultMessages() {
     return [new SmpResponseMessage("GENERIC_ERROR")];

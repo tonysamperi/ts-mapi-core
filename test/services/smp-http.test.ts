@@ -1,7 +1,8 @@
 /** @jest-environment setup-polly-jest/jest-environment-node */
-import {SmpHttpService, SmpRestVerbs, SmpErrorResponse} from "../../src";
 import {resolve} from "path";
 import {setupPolly} from "setup-polly-jest";
+//
+import {SmpHttpService, SmpRestVerbs, SmpErrorResponse} from "../../src";
 
 const localData = {
     urls: {

@@ -1,4 +1,4 @@
-import {SmpResponseMessage} from "./smp-response-message.class";
+import {SmpResponseMessage} from "./smp-response-message.class.js";
 
 type ResponseMessageUnion = string | SmpResponseMessage;
 
