@@ -2,6 +2,7 @@ import {DateTime} from "ts-luxon";
 //
 import {SmpAbstractCacheStrategy} from "./smp-abstract-cache-strategy.class.js";
 import {SmpCachedValue} from "./smp-cached-value.interface.js";
+import {smpIsSmpCachedValue} from "./smp-is-smp-cached-value.function.js";
 
 export abstract class SmpAbstractTtlCacheStrategy extends SmpAbstractCacheStrategy {
 
@@ -11,7 +12,7 @@ export abstract class SmpAbstractTtlCacheStrategy extends SmpAbstractCacheStrate
 
     protected abstract _removeRaw(key: string): void;
 
-    protected abstract _writeRaw(key: string, value: unknown): void;
+    protected abstract _writeRaw(key: string, value: unknown, ttl?: number): void;
 
     flush(): void {
         this._flushRaw();
@@ -19,7 +20,7 @@ export abstract class SmpAbstractTtlCacheStrategy extends SmpAbstractCacheStrate
 
     read<T = unknown>(key: string): T | undefined {
         const storedValue = this._readRaw(key);
-        if (this._isKikCachedValue<T>(storedValue)) {
+        if (this._isSmpCachedValue<T>(storedValue)) {
             if (storedValue.expiry >= DateTime.now().ts) {
                 return storedValue.value as T;
             }
@@ -37,7 +38,7 @@ export abstract class SmpAbstractTtlCacheStrategy extends SmpAbstractCacheStrate
 
     write<T = unknown>(key: string, value: T, ttl?: number): void {
         if (isNaN(+ttl!) || +ttl! <= 0) {
-            this._writeRaw(key, value);
+            this._writeRaw(key, value, ttl);
             return;
         }
         const expiry = DateTime.now().ts + ttl! * 1000;
@@ -45,16 +46,10 @@ export abstract class SmpAbstractTtlCacheStrategy extends SmpAbstractCacheStrate
             value: value,
             expiry: expiry
         };
-        this._writeRaw(key, wrappedValue);
+        this._writeRaw(key, wrappedValue, ttl);
     }
 
-    protected _isKikCachedValue<T>(value: unknown): value is SmpCachedValue<T> {
-        return (
-            typeof value === "object" &&
-            value !== null &&
-            "value" in value &&
-            "expiry" in value &&
-            typeof (value as any).expiry === "number"
-        );
+    protected _isSmpCachedValue<T>(value: unknown): value is SmpCachedValue<T> {
+        return smpIsSmpCachedValue(value);
     }
 }

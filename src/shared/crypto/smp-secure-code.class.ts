@@ -22,16 +22,21 @@ export class SmpSecureCode {
     constructor(protected _baseCode: string) {
     }
 
+    /**
+     * Checks secure code, throws a 400 error on failure
+     * @param giftcardCode
+     * @param pinToVerify
+     */
     static check<T extends string>(giftcardCode: string, pinToVerify: T): asserts giftcardCode is T {
         if (new this(giftcardCode).secureCode === pinToVerify) {
             return;
         }
 
-        throw SmpErrorResponse.build(
-            "WRONG_SECURE_CODE",
-            "WRONG_SECURE_CODE",
-            SmpHttpStatusCodes.BadRequest
-        );
+        throw SmpErrorResponse.create({
+            messages: "WRONG_SECURE_CODE",
+            errorCode: "WRONG_SECURE_CODE",
+            status: SmpHttpStatusCodes.BadRequest
+        });
     }
 
     protected _encode(): string {
