@@ -3150,7 +3150,7 @@ __metadata:
     "@aws-sdk/util-dynamodb": ^3.758.0
     class-transformer: ^0.5.1
     firebase: ^11.4.0
-    reflect-metadata: ^0.1.14
+    reflect-metadata: ^0.2.2
     rxjs: ^7.5.6
     ts-luxon: ^6.0.0
     zod: ^3.24.4

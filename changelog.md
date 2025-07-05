@@ -1,3 +1,7 @@
+## 1.6.0
+* Make arg optional in KikErrorResponse.create, to create a generic error by simply calling KikErrorResponse.create()
+* Add rxjs implementations of cache
+
 ## 1.5.0
 * Fixed smpRxjsCatchOnly catching derived classes 
 * Improved dramatically smpZodDateTime that now works like a native definition with concatenation

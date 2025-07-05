@@ -18,20 +18,20 @@ export class SmpCommonUtils {
 
     static assertIsArray<T>(entity: T[], withMessage?: string): asserts entity is T[] {
         if (!Array.isArray(entity)) {
-            throw new Error(withMessage || "KikCommonUtils => val was not an array");
+            throw new Error(withMessage || `${this.constructor.name} => val was not an array`);
         }
     }
 
     static assertIsBoolean(entity: any, withMessage?: string): asserts entity is boolean {
         if (!this.isBoolean(entity)) {
-            throw new Error(withMessage || "KikCommonUtils => val was not boolean");
+            throw new Error(withMessage || `${this.constructor.name} => val was not boolean`);
         }
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     static assertIsFunction(entity: any, withMessage?: string): asserts entity is Function {
         if (!this.isFunction(entity)) {
-            throw new Error(withMessage || "KikCommonUtils => entity was not a function");
+            throw new Error(withMessage || `${this.constructor.name} => entity was not a function`);
         }
     }
 
@@ -41,43 +41,43 @@ export class SmpCommonUtils {
         withMessage?: string
     ): asserts entity is typeof klass {
         if (!(entity instanceof klass)) {
-            throw new Error(withMessage || "KikCommonUtils => val was not instance of class");
+            throw new Error(withMessage || `${this.constructor.name} => val was not instance of class`);
         }
     }
 
     static assertIsNotEmpty(val: any, withMessage?: string): void {
         if (this.isEmpty(val)) {
-            throw new Error(withMessage || "KikCommonUtils => entity was empty");
+            throw new Error(withMessage || `${this.constructor.name} => entity was empty`);
         }
     }
 
     static assertIsNumber(entity: any, withMessage?: string): asserts entity is number {
         if (typeof entity !== typeof 0) {
-            throw new Error(withMessage || "KikCommonUtils => val was not numeric");
+            throw new Error(withMessage || `${this.constructor.name} => val was not numeric`);
         }
     }
 
     static assertIsNumeric(entity: any, withMessage?: string): void {
         if (!this.isNumeric(entity)) {
-            throw new Error(withMessage || "KikCommonUtils => val was not numeric");
+            throw new Error(withMessage || `${this.constructor.name} => val was not numeric`);
         }
     }
 
     static assertIsObject(entity: any, withMessage?: string): asserts entity is object {
         if (!this.isObject(entity)) {
-            throw new Error(withMessage || "KikCommonUtils => val was not an object");
+            throw new Error(withMessage || `${this.constructor.name} => val was not an object`);
         }
     }
 
     static assertIsString(entity: any, withMessage?: string): asserts entity is string {
         if (!this.isString(entity)) {
-            throw new Error(withMessage || "KikCommonUtils => val was not a string");
+            throw new Error(withMessage || `${this.constructor.name} => val was not a string`);
         }
     }
 
     static assertIsTruthy<T>(condition: T, withMessage?: string): asserts condition {
         if (!condition) {
-            throw new Error(withMessage || "KikCommonUtils => condition wasn't truthy");
+            throw new Error(withMessage || `${this.constructor.name} => condition wasn't truthy`);
         }
     }
 
@@ -271,7 +271,7 @@ export class SmpCommonUtils {
     /**
      * This one is from underscore.js 1.13.6
      * It basically checks if a value is generically an object (meaning Array, Date, Map).
-     * If you want a strict check use KikCommonUtils.isObject instead.
+     * If you want a strict check use SmpCommonUtils.isObject instead.
      * [TS] TODO: It would be nice to exclude String, Number, Boolean and Symbol, but for now, this will do
      * @param entity
      * @returns {boolean}
@@ -345,6 +345,16 @@ export class SmpCommonUtils {
         return !!~Object.values(obj).filter((v) => this.isEqual(v, value));
     }
 
+    static omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
+        const leftKeys = (Object.keys(obj) as (keyof T)[])
+            .filter((key): key is Exclude<keyof T, K> => !keys.includes(key as K));
+
+        return leftKeys.reduce((acc, key) => {
+            acc[key] = obj[key];
+            return acc;
+        }, {} as Omit<T, K>);
+    }
+
     static parseBoolean(str?: string): boolean {
         return str ? /^true$/i.test(str) : !1;
     }
@@ -354,7 +364,7 @@ export class SmpCommonUtils {
             return JSON.parse(str);
         }
         catch (e) {
-            console.warn("KikCommonUtils => couldn't parse json string", {
+            console.warn(`${this.constructor.name} => couldn't parse json string`, {
                 str,
                 error: e
             });
@@ -419,7 +429,6 @@ export class SmpCommonUtils {
         document.body.append(form);
         form.submit();
     }
-
 
     static toCamelCase(s: string): string {
         return this.words(s.replace(/['\u2019]/g, "")).reduce((res, word, index) => {
