@@ -5,11 +5,11 @@ import {SmpGenericResponseBase} from "./smp-generic-response-base.interface.js";
 import {SmpGenericResponse} from "./smp-generic-response.class.js";
 import {SmpResponseMessage} from "./smp-response-message.class.js";
 
-function getDefaultMessages() {
-    return [new SmpResponseMessage("GENERIC_ERROR")];
-}
-
 export class SmpErrorResponse<T = any> extends SmpGenericResponse<T, SmpGenericResponseBase & Pick<SmpErrorResponse, "errorCode" | "timestamp" | "status">> {
+
+    static get DEFAULT_MESSAGES() {
+        return [new SmpResponseMessage("GENERIC_ERROR")];
+    }
 
     @Expose()
     get errorCode(): number | string {
@@ -27,30 +27,17 @@ export class SmpErrorResponse<T = any> extends SmpGenericResponse<T, SmpGenericR
 
     protected _timestamp: number = Date.now();
 
-    constructor(messages: SmpResponseMessage[] = getDefaultMessages(),
+    constructor(messages: SmpResponseMessage[] = SmpErrorResponse.DEFAULT_MESSAGES,
                 protected _errorCode: number | string = "GENERIC_ERROR",
                 protected _status: number = 500,
                 data?: T) {
         super(messages, data);
     }
 
-    /**
-     * @deprecated
-     * @see SmpErrorResponse.create
-     */
-    static build<T>(
-        messages: SmpErrorResponseCreateOpts<any>["messages"] = getDefaultMessages(),
-        errorCode?: number | string,
-        status?: number,
-        data?: T
-    ): SmpErrorResponse {
-        return new SmpErrorResponse<T>(SmpResponseMessage.sanitizeMessages(messages), errorCode, status, data);
-    }
-
     static create<T>({
-                         messages = getDefaultMessages(),
+                         messages = SmpErrorResponse.DEFAULT_MESSAGES,
                          ...opts
-                     }: Partial<SmpErrorResponseCreateOpts<T>>): SmpErrorResponse {
+                     }: Partial<SmpErrorResponseCreateOpts<T>> = {}): SmpErrorResponse {
         return new SmpErrorResponse<T>(
             SmpResponseMessage.sanitizeMessages(messages),
             opts.errorCode,
