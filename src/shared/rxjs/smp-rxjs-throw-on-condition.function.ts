@@ -15,11 +15,11 @@ import {smpRxjsThrowIfEmpty} from "./smp-rxjs-throw-if-empty.function.js";
  *
  * @example
  * import { of } from 'rxjs';
- * import { kikRxjsThrowOnCondition } from "./path-to-your-file";
+ * import { smpRxjsThrowOnCondition } from "./path-to-your-file";
  *
  * const source$ = of(1, 5, -3, 7, 12).pipe(
- *   kikRxjsThrowOnCondition(value => value >= 0, () => new Error("Value is less than 0")),
- *   kikRxjsThrowOnCondition(value => value > 12, () => new Error("Value is lower than 12"))
+ *   smpRxjsThrowOnCondition(value => value >= 0, () => new Error("Value is less than 0")),
+ *   smpRxjsThrowOnCondition(value => value > 12, () => new Error("Value is lower than 12"))
  * );
  *
  * source$.subscribe({
@@ -34,7 +34,7 @@ export function smpRxjsThrowOnCondition<T>(
     return (source: Observable<T>) =>
         source.pipe(
             filter((v: T) => !condition(v)), // Invert the condition because if I need to throw on that condition we should filter all that don't match
-            defaultIfEmpty(false as unknown as T), // We nuke type errors, cause when falsy kikRxjsThrowIfEmpty will throw
+            defaultIfEmpty(false as unknown as T), // We nuke type errors, cause when falsy smpRxjsThrowIfEmpty will throw
             smpRxjsThrowIfEmpty(errorFactory)
         );
 }

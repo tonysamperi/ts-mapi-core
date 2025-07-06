@@ -2,12 +2,12 @@ import {defer, Observable, of} from "rxjs";
 //
 import {SmpAbstractRxjsTtlCacheStrategy} from "./smp-abstract-rxjs-ttl-cache-strategy.class.js";
 
-export class KikRxjsInMemoryCache extends SmpAbstractRxjsTtlCacheStrategy {
+export class SmpRxjsInMemoryCache extends SmpAbstractRxjsTtlCacheStrategy {
 
     private static _storage = new Map<string, unknown>();
 
-    protected get _staticSelf(): typeof KikRxjsInMemoryCache {
-        return this.constructor as typeof KikRxjsInMemoryCache;
+    protected get _staticSelf(): typeof SmpRxjsInMemoryCache {
+        return this.constructor as typeof SmpRxjsInMemoryCache;
     }
 
     protected _flushRaw(): Observable<void> {

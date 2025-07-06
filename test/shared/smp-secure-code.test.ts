@@ -1,6 +1,6 @@
 import {SmpSecureCode} from "../../src/shared/crypto/smp-secure-code.class";
 
-describe("KikGiftcardSecureCode", () => {
+describe("SmpGiftcardSecureCode", () => {
 
     const _ctx = {
         gcs: [

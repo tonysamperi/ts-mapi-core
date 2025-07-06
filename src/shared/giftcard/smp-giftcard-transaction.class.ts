@@ -10,7 +10,7 @@ import {SmpGiftcardTransactionConfig} from "./smp-giftcard-transaction-config.in
 import {SmpGiftcardTransactionHashStrategies} from "./smp-giftcard-transaction-hash-strategies.enum.js";
 
 /**
- * Base implementation that you can extend, even customizing the static parts like #KikGiftcardTransaction._AES_ENCODER.
+ * Base implementation that you can extend, even customizing the static parts like #SmpGiftcardTransaction._AES_ENCODER.
  * You can create your own instance of KikAesCrypt to override it.
  */
 export class SmpGiftcardTransaction implements SmpGiftcardTransactionPlain {

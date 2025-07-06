@@ -1,6 +1,6 @@
 {
   "name": "@tonysamperi/ts-mapi-core",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "A set of shared utils to be used at BE or FE",
   "type": "module",
   "types": "./dist/esm/index.d.ts",
@@ -32,7 +32,9 @@
     "build:dev": "NODE_ENV=development node build.config",
     "build": "NODE_ENV=production node build.config",
     "build:cjs": "webpack --config webpack.cjs.config.cjs --stats verbose",
+    "check-exports": "node scripts/check-exports.js",
     "lint": "eslint && tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run check-exports",
     "release": "npm publish",
     "release:beta": "npm publish --tag beta",
     "release:next": "npm publish --tag next",
