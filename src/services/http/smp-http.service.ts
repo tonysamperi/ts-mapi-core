@@ -1,11 +1,11 @@
-import {SmpHttpConfig} from "./smp-http-config.interface.js";
+import {SmpAbstractTtlCacheStrategy} from "../../shared/utils/cache/smp-abstract-ttl-cache-strategy.class.js";
 import {SmpDynamicFetchReturn} from "./smp-dynamic-fetch-return.type.js";
-import {SmpHttpSessionStorageCache} from "./smp-http-session-storage-cache.class.js";
-import {SmpInMemoryCache} from "../../shared/utils/cache/smp-in-memory-cache.class.js";
-import {SmpCacheStrategy} from "../../shared/utils/cache/smp-cache-strategy.interface.js";
 import {SmpErrorResponse} from "../../shared/api/smp-error-response.class.js";
 import {SmpGenericConstructor} from "../../shared/common/smp-generic-constructor.type.js";
+import {SmpHttpConfig} from "./smp-http-config.interface.js";
+import {SmpHttpSessionStorageCache} from "./smp-http-session-storage-cache.class.js";
 import {SmpHttpStatusCodes} from "./smp-http-status-code.enum.js";
+import {SmpInMemoryCache} from "../../shared/utils/cache/smp-in-memory-cache.class.js";
 
 interface HttpException<T = any> {
     status: SmpHttpStatusCodes;
@@ -20,7 +20,7 @@ interface ParseableErrorClass<T> {
 export class SmpHttpService {
 
     protected static _cachePrefix: string = "smp_rest_cache_";
-    protected static _cacheStrategy: SmpCacheStrategy = typeof sessionStorage !== "undefined"
+    protected static _cacheStrategy: SmpAbstractTtlCacheStrategy = typeof sessionStorage !== "undefined"
         ? new SmpHttpSessionStorageCache()
         : new SmpInMemoryCache();
     protected static _config = {
@@ -28,7 +28,7 @@ export class SmpHttpService {
         shared: new Map<string, Promise<any>>()
     };
     protected static _errorClass: SmpGenericConstructor & ParseableErrorClass<any> = SmpErrorResponse;
-    protected static _mergeParamsFallbackBaseUrl: string = "https://ts-mapi-core";
+    protected static _mergeParamsFallbackBaseUrl: string = "https://ts-mapi-core.com";
 
     static $http(config: SmpHttpConfig): Promise<SmpDynamicFetchReturn<SmpHttpConfig["responseType"], any>>;
     static $http<T = any>(config: SmpHttpConfig): Promise<T>;
@@ -175,12 +175,12 @@ export class SmpHttpService {
     }
 
     protected static async _preprocessRequest<T>(config: SmpHttpConfig<T>): Promise<SmpHttpConfig<T>> {
-        // Empty base hook that you can override in derived class
+        // Empty base hook that you can override in a derived class
         return config;
     }
 
     protected static async _preprocessResponse<T>(_config_: SmpHttpConfig<T>, res: Response): Promise<Response> {
-        // Empty base hook that you can override in derived class
+        // Empty base hook that you can override in a derived class
         return res;
     }
 

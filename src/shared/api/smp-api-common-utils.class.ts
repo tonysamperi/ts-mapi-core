@@ -35,7 +35,7 @@ export class SmpApiCommonUtils {
             });
         }
         catch (e) {
-            this._logger.warn("KikApiCommonUtils: couldn't interpolate params", e);
+            this._logger.warn(`${this.constructor.name}: couldn't interpolate params`, e);
         }
 
         return urlTemplate;

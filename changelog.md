@@ -1,5 +1,8 @@
+## 1.6.1
+* Fixed missing exports in cjs build
+
 ## 1.6.0
-* Make arg optional in KikErrorResponse.create, to create a generic error by simply calling KikErrorResponse.create()
+* Make arg optional in SmpErrorResponse.create, to create a generic error by simply calling SmpErrorResponse.create()
 * Add rxjs implementations of cache
 
 ## 1.5.0

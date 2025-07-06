@@ -164,7 +164,7 @@ export default tsEslint.config({
             "**/build-tsup.config.js",
             "**/jest.config.js",
             "eslint.config.js",
-            "webpack*"
+            "scripts/**/*"
         ]
     },
     {
