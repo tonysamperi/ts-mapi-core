@@ -1,6 +1,6 @@
 import {DateTime} from "ts-luxon";
 //
-import {SmpCachedValue} from "./cache";
+import {SmpCachedValue} from "./cache/smp-cached-value.interface.js";
 
 /**
  * A util to generate session ids

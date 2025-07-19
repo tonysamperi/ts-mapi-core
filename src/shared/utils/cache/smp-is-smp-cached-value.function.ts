@@ -1,4 +1,4 @@
-import {SmpCachedValue} from "./smp-cached-value.interface";
+import {SmpCachedValue} from "./smp-cached-value.interface.js";
 
 /**
  * Tells you if a value is a SmpCachedValue
