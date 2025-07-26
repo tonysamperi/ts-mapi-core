@@ -134,10 +134,10 @@ export class SmpGiftcardTransaction implements SmpGiftcardTransactionPlain {
         try {
             // New transaction format
             if (this.isBase64(transactionId)) {
-                const decoded = (this.constructor as typeof SmpGiftcardTransaction)._AES_ENCODER.decryptAES(transactionId);
+                const decoded = this._AES_ENCODER.decryptAES(transactionId);
                 const plain = JSON.parse(decoded) as SmpGiftcardTransactionPlain;
 
-                return plainToInstance(this, plain);
+                return plainToInstance(SmpGiftcardTransaction, plain);
             }
             else {
                 return this.explode(transactionId);

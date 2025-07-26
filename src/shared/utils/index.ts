@@ -1,3 +1,4 @@
+export * from "./smp-apply-mixin.function.js";
 export * from "./smp-common-utils.class.js";
 export * from "./smp-filter-exception.class.js";
 export * from "./smp-sid.class.js";

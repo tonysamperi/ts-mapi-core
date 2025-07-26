@@ -1,16 +1,16 @@
-import {SmpSecureCode} from "../../src/shared/crypto/smp-secure-code.class";
+import {SmpSecureCode} from "../../../src/shared/crypto/smp-secure-code.class";
 
 describe("SmpGiftcardSecureCode", () => {
 
     const _ctx = {
         gcs: [
-            ["9026000005688202", "C6638"]
+            ["9026000005688202", "6146B"]
         ]
     };
 
     class KikGiftcardSecureCodeImpl extends SmpSecureCode {
 
-        protected _seed: string = "Percassi1Gift!Card";
+        protected _seed: string = "My!Gift!Card!Secret";
 
         constructor(giftcardCode: string) {
             super(giftcardCode);
