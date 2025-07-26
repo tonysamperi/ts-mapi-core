@@ -1,3 +1,12 @@
+## 1.7.0
+* Added smpApplyMixin
+* Added smpRxjsQueue + smpRxjsSequence
+* Misc fixes on giftcard stuff
+
+## 1.6.2
+* Fix imports
+* Add check import-exports test
+
 ## 1.6.1
 * Fixed missing exports in cjs build
 

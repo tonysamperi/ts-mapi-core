@@ -17,6 +17,8 @@ export declare const SmpFirebaseService: typeof import("./services/firebase/smp-
 export declare const SmpAbstractRxjsTtlCacheStrategy: typeof import("./shared/rxjs/index.js").SmpAbstractRxjsTtlCacheStrategy;
 export declare const SmpRxjsInMemoryCache: typeof import("./shared/rxjs/index.js").SmpRxjsInMemoryCache;
 export declare const smpRxjsCatchOnly: typeof import("./shared/rxjs/index.js").smpRxjsCatchOnly;
+export declare const smpRxjsQueue: typeof import("./shared/rxjs/index.js").smpRxjsQueue;
+export declare const smpRxjsSequence: typeof import("./shared/rxjs/index.js").smpRxjsSequence;
 export declare const smpRxjsThrowIfEmpty: typeof import("./shared/rxjs/index.js").smpRxjsThrowIfEmpty;
 export declare const smpRxjsThrowOnCondition: typeof import("./shared/rxjs/index.js").smpRxjsThrowOnCondition;
 export declare const smpZodDateTime: typeof import("./shared/zod/index.js").smpZodDateTime;
@@ -37,6 +39,12 @@ Object.defineProperties(module.exports, {
     },
     SmpRxjsInMemoryCache: {
         get: () => require("./shared/rxjs/index.js").SmpRxjsInMemoryCache
+    },
+    smpRxjsQueue: {
+        get: () => require("./shared/rxjs/index.js").smpRxjsQueue
+    },
+    smpRxjsSequence: {
+        get: () => require("./shared/rxjs/index.js").smpRxjsSequence
     },
     smpRxjsThrowIfEmpty: {
         get: () => require("./shared/rxjs/index.js").smpRxjsThrowIfEmpty
