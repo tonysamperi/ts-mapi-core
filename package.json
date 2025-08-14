@@ -1,6 +1,6 @@
 {
   "name": "@tonysamperi/ts-mapi-core",
-  "version": "1.7.0",
+  "version": "1.8.0-next.0",
   "description": "A set of shared utils to be used at BE or FE",
   "type": "module",
   "types": "./dist/esm/index.d.ts",
@@ -58,7 +58,7 @@
     "@pollyjs/adapter-fetch": "^6.0.6",
     "@pollyjs/core": "^6.0.6",
     "@pollyjs/persister-fs": "^6.0.6",
-    "@swc/core": "^1.11.24",
+    "@swc/core": "^1.13.2",
     "@tonysamperi/krypto": "^1.0.0",
     "@tonysamperi/logger": "^2.0.0",
     "@types/jest": "~29.5.14",

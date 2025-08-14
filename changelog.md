@@ -1,3 +1,10 @@
+## 1.8.0
+* Made SmpGenericConstructor GENERIC!
+* Add SmpBaseJwtToken and SmpBaseJwtTokenPlain
+* Add smpAppyMixin
+* Improve typings in smpRxjsQueue and smpRxjsSequence
+* Add SmpBaseJtwToken + SmpBaseJwtTokenPlain
+
 ## 1.7.0
 * Added smpApplyMixin
 * Added smpRxjsQueue + smpRxjsSequence

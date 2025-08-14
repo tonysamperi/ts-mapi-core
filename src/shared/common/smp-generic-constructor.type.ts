@@ -1,1 +1,1 @@
-export type SmpGenericConstructor = new (...args: any[]) => any;
+export type SmpGenericConstructor<T = any, U = any> = new (...args: U[]) => T;
