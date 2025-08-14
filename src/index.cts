@@ -1,15 +1,14 @@
 export const VERSION = "__BUILD_VRS__" as const; // REPLACED W/ BUILD
 //
-// Since it's an interface, it cannot be exported like below. Since SWC it can't be name exported either
-export * from "./services/firebase/smp-firebase-service-config.interface.js";
 export * from "./services/http/index.js";
+export {SmpFirebaseServiceConfig} from "./services/firebase/smp-firebase-service-config.interface.js";
 //
 export * from "./shared/api/index.js";
 export * from "./shared/common/index.js";
 export * from "./shared/crypto/index.js";
+export * from "./shared/firebase/index.js";
 export * from "./shared/giftcard/index.js";
 export * from "./shared/marketing-cloud/index.js";
-export * from "./shared/firebase/index.js";
 export * from "./shared/utils/index.js";
 // Dynamic exports
 export declare const SmpDynamoService: typeof import("./services/smp-dynamo.service.js").SmpDynamoService;
