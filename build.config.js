@@ -28,7 +28,7 @@ async function doBuild() {
 
     await tsup.build({
         clean: !0,
-        entry: ["src/**/*.ts", "!src/index.ts", "src/index.cts"],
+        entry: ["src/index.cts"],
         format: "cjs",
         outDir: "dist/cjs",
         target: "esnext",
