@@ -7,10 +7,4 @@ export * from "./shared/crypto/index.js";
 export * from "./shared/firebase/index.js";
 export * from "./shared/giftcard/index.js";
 export * from "./shared/marketing-cloud/index.js";
-export * from "./shared/rxjs/index.js";
 export * from "./shared/utils/index.js";
-export * from "./shared/zod/index.js";
-//
-export {SmpDynamoService} from "./services/smp-dynamo.service.js";
-export {SmpFirebaseService} from "./services/firebase/smp-firebase.service.js";
-export type {SmpFirebaseServiceConfig} from "./services/firebase/smp-firebase-service-config.interface.js";

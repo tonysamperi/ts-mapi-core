@@ -1,6 +1,6 @@
 {
   "name": "@tonysamperi/ts-mapi-core",
-  "version": "1.8.0",
+  "version": "2.0.0-beta.0",
   "description": "A set of shared utils to be used at BE or FE",
   "type": "module",
   "types": "./dist/esm/index.d.ts",
@@ -8,20 +8,34 @@
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/cjs/index.d.cts",
-        "default": "./dist/cjs/index.cjs"
-      },
-      "browser": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      }
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
     },
-    "./package.json": "./package.json"
+    "./dynamo": {
+      "import": "./dist/esm/dynamo.js",
+      "require": "./dist/cjs/dynamo.cjs"
+    },
+    "./firebase": {
+      "import": "./dist/esm/firebase.js",
+      "require": "./dist/cjs/firebase.cjs"
+    },
+    "./rxjs": {
+      "import": "./dist/esm/rxjs.js",
+      "require": "./dist/cjs/rxjs.cjs"
+    },
+    "./zod": {
+      "import": "./dist/esm/zod.js",
+      "require": "./dist/cjs/zod.cjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "dynamo": ["./dist/esm/dynamo.d.ts"],
+      "firebase": ["./dist/esm/firebase.d.ts"],
+      "rxjs": ["./dist/esm/rxjs.d.ts"],
+      "zod": ["./dist/esm/zod.d.ts"],
+      "*": ["./dist/esm/*"]
+    }
   },
   "sideEffects": false,
   "files": [
