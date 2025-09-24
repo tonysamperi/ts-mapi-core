@@ -4,7 +4,7 @@ import {SmpAbstractRxjsTtlCacheStrategy} from "./smp-abstract-rxjs-ttl-cache-str
 
 export class SmpRxjsInMemoryCache extends SmpAbstractRxjsTtlCacheStrategy {
 
-    private static _storage = new Map<string, unknown>();
+    private static _storage = new Map<string, any>();
 
     protected get _staticSelf(): typeof SmpRxjsInMemoryCache {
         return this.constructor as typeof SmpRxjsInMemoryCache;
@@ -18,7 +18,7 @@ export class SmpRxjsInMemoryCache extends SmpAbstractRxjsTtlCacheStrategy {
         });
     }
 
-    protected _readRaw(key: string): Observable<unknown | undefined> {
+    protected _readRaw(key: string): Observable<any | undefined> {
         return defer(() => {
 
             return of(this._staticSelf._storage.get(key));
@@ -33,12 +33,16 @@ export class SmpRxjsInMemoryCache extends SmpAbstractRxjsTtlCacheStrategy {
         });
     }
 
-    protected _writeRaw(key: string, value: unknown): Observable<void> {
-        return defer(() => {
+    protected _writeRaw(key: string, value: any): Observable<void> {
+        const obs$ = defer(() => {
             this._staticSelf._storage.set(key, value);
-
             return of(void 0);
         });
+
+        // Support "fire and forget"
+        obs$.subscribe();
+
+        return obs$;
     }
 }
 
