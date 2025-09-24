@@ -155,7 +155,7 @@ export class SmpHttpService {
         return `${this._config.cachePrefix}${key}`;
     }
 
-    protected static _cachePop<T = unknown>(key: string): T | void {
+    protected static _cachePop<T = any>(key: string): T | void {
         const value = this._cacheRead<T>(key);
         this._cacheRemove(key);
 

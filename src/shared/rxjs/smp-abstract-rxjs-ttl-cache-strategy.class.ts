@@ -19,7 +19,7 @@ export abstract class SmpAbstractRxjsTtlCacheStrategy extends SmpAbstractCacheSt
         return this._flushRaw();
     }
 
-    read<T = unknown>(key: string): Observable<T | undefined> {
+    read<T = any>(key: string): Observable<T | undefined> {
         return this._readRaw(key).pipe(
             map((storedValue) => {
                 if (this._isSmpCachedValue<T>(storedValue)) {
@@ -40,7 +40,7 @@ export abstract class SmpAbstractRxjsTtlCacheStrategy extends SmpAbstractCacheSt
         return this._removeRaw(key);
     }
 
-    write<T = unknown>(key: string, value: T, ttl?: number): Observable<void> {
+    write<T = any>(key: string, value: T, ttl?: number): Observable<void> {
         if (isNaN(+ttl!) || +ttl! <= 0) {
             return this._writeRaw(key, value, ttl);
         }
