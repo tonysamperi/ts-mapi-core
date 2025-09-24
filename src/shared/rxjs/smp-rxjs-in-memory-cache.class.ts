@@ -11,38 +11,25 @@ export class SmpRxjsInMemoryCache extends SmpAbstractRxjsTtlCacheStrategy {
     }
 
     protected _flushRaw(): Observable<void> {
-        return defer(() => {
-            this._staticSelf._storage.clear();
+        this._staticSelf._storage.clear();
 
-            return of(void 0);
-        });
+        return of(void 0);
     }
 
     protected _readRaw(key: string): Observable<any | undefined> {
-        return defer(() => {
-
-            return of(this._staticSelf._storage.get(key));
-        });
+        return of(this._staticSelf._storage.get(key));
     }
 
     protected _removeRaw(key: string): Observable<void> {
-        return defer(() => {
-            this._staticSelf._storage.delete(key);
+        this._staticSelf._storage.delete(key);
 
-            return of(void 0);
-        });
+        return of(void 0);
     }
 
     protected _writeRaw(key: string, value: any): Observable<void> {
-        const obs$ = defer(() => {
-            this._staticSelf._storage.set(key, value);
-            return of(void 0);
-        });
+        this._staticSelf._storage.set(key, value);
 
-        // Support "fire and forget"
-        obs$.subscribe();
-
-        return obs$;
+        return of(void 0);
     }
 }
 

@@ -165,5 +165,16 @@ describe("SmpRxjsInMemoryCache - TTL Handling", () => {
         item = await firstValueFrom(cache.read("overwriteKeyTTL"));
         expect(item).toBeUndefined();
     });
+
+    it("should write even without subscribing (fire-and-forget)", async () => {
+        // Fire-and-forget
+        cache.write("fireForgetKey", "fireForgetValue");
+
+        // dato che la write avviene in defer/subscribe interno, lasciamo girare la microtask queue
+        await Promise.resolve();
+
+        const item = await firstValueFrom(cache.read<string>("fireForgetKey"));
+        expect(item).toBe("fireForgetValue");
+    });
 });
 
