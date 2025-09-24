@@ -1,6 +1,6 @@
 {
   "name": "@tonysamperi/ts-mapi-core",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "description": "A set of shared utils to be used at BE or FE",
   "type": "module",
   "types": "./dist/esm/index.d.ts",
@@ -8,33 +8,68 @@
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.cts",
+        "default": "./dist/cjs/index.cjs"
+      },
+      "browser": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      }
     },
     "./dynamo": {
-      "import": "./dist/esm/dynamo.js",
-      "require": "./dist/cjs/dynamo.cjs"
+      "import": {
+        "types": "./dist/esm/dynamo.d.ts",
+        "default": "./dist/esm/dynamo.js"
+      },
+      "require": {
+        "types": "./dist/cjs/dynamo.d.cts",
+        "default": "./dist/cjs/dynamo.cjs"
+      }
     },
     "./firebase": {
-      "import": "./dist/esm/firebase.js",
-      "require": "./dist/cjs/firebase.cjs"
+      "import": {
+        "types": "./dist/esm/firebase.d.ts",
+        "default": "./dist/esm/firebase.js"
+      },
+      "require": {
+        "types": "./dist/cjs/firebase.d.cts",
+        "default": "./dist/cjs/firebase.cjs"
+      }
     },
     "./rxjs": {
-      "import": "./dist/esm/rxjs.js",
-      "require": "./dist/cjs/rxjs.cjs"
+      "import": {
+        "types": "./dist/esm/rxjs.d.ts",
+        "default": "./dist/esm/rxjs.js"
+      },
+      "require": {
+        "types": "./dist/cjs/rxjs.d.cts",
+        "default": "./dist/cjs/rxjs.cjs"
+      }
     },
     "./zod": {
-      "import": "./dist/esm/zod.js",
-      "require": "./dist/cjs/zod.cjs"
-    }
+      "import": {
+        "types": "./dist/esm/zod.d.ts",
+        "default": "./dist/esm/zod.js"
+      },
+      "require": {
+        "types": "./dist/cjs/zod.d.cts",
+        "default": "./dist/cjs/zod.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {
-      "dynamo": ["./dist/esm/dynamo.d.ts"],
-      "firebase": ["./dist/esm/firebase.d.ts"],
-      "rxjs": ["./dist/esm/rxjs.d.ts"],
-      "zod": ["./dist/esm/zod.d.ts"],
-      "*": ["./dist/esm/*"]
+      "": ["./dist/cjs/index.d.cts"],
+      "dynamo": ["./dist/cjs/dynamo.d.cts"],
+      "firebase": ["./dist/cjs/firebase.d.cts"],
+      "rxjs": ["./dist/cjs/rxjs.d.cts"],
+      "zod": ["./dist/cjs/zod.d.cts"]
     }
   },
   "sideEffects": false,
