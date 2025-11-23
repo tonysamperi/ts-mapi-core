@@ -2,7 +2,7 @@
 import {resolve} from "path";
 import {setupPolly} from "setup-polly-jest";
 //
-import {SmpHttpService, SmpRestVerbs, SmpErrorResponse} from "../../src";
+import {SmpHttpTwoService, SmpRestVerbs, SmpErrorResponse} from "../../src";
 
 const localData = {
     urls: {
@@ -22,8 +22,7 @@ const localData = {
     }
 };
 
-describe("SmpHttpService", () => {
-
+describe("SmpHttpTwoService", () => {
     const pollyContext = setupPolly({
         adapters: [
             require("@pollyjs/adapter-fetch")
@@ -36,6 +35,8 @@ describe("SmpHttpService", () => {
         },
         mode: "record"
     });
+
+    let generateAjaxBaseSpy: jest.SpyInstance;
 
     beforeEach(() => {
         pollyContext.polly.server.post(localData.urls.foo).intercept(async (req, res) => {
@@ -50,37 +51,23 @@ describe("SmpHttpService", () => {
         pollyContext.polly.server.get(localData.urls.error).intercept(async (_req_, res) => {
             res.status(400).send(localData.sampleError);
         });
+        generateAjaxBaseSpy = jest.spyOn(SmpHttpTwoService, "_generateAjaxBase");
     });
 
-    afterEach(() => pollyContext.polly.flush());
+    afterEach(() => {
+        pollyContext.polly.flush();
+        jest.clearAllMocks();
+    });
 
     it("should handle a post request with correct types", async () => {
-        const response = await SmpHttpService.$http<{ foo: "bar" }>({
+        const response = await SmpHttpTwoService.$http<{ foo: "bar" }>({
             method: SmpRestVerbs.POST,
             url: localData.urls.foo
         });
     });
 
-    it("should merge query params correctly", async () => {
-        const url = SmpHttpService.mergeQueryParams("http://localhost:8080?foo=1&bar=2", {
-            goo: "3",
-            car: "4"
-        });
-
-        expect(url).toBe("http://localhost:8080/?foo=1&bar=2&goo=3&car=4");
-    });
-
-    it("should handle relative urls with query params", async () => {
-        const url = SmpHttpService.mergeQueryParams("/?foo=1&bar=2", {
-            goo: "3",
-            car: "4"
-        });
-
-        expect(url).toBe("/?foo=1&bar=2&goo=3&car=4");
-    });
-
     it("should handle an empty response", async () => {
-        const response = await SmpHttpService.$http({
+        const response = await SmpHttpTwoService.$http({
             url: localData.urls.empty
         });
 
@@ -88,7 +75,7 @@ describe("SmpHttpService", () => {
     });
 
     it("should parse SmpErrorResponse", async () => {
-        const response: SmpErrorResponse = await SmpHttpService.$http({
+        const response: SmpErrorResponse = await SmpHttpTwoService.$http({
             url: localData.urls.error
         }).catch((e: any) => {
             return e.body;
@@ -98,6 +85,23 @@ describe("SmpHttpService", () => {
         expect(response.errorCode).toBe(localData.sampleError.errorCode);
         expect(response.messages).toEqual(localData.sampleError.messages);
         expect(response.timestamp).toBe(localData.sampleError.timestamp);
+    });
+
+    it("should dedupe calls", async () => {
+        const promises = [
+            SmpHttpTwoService.$http({
+                url: localData.urls.error
+            }).catch((e: any) => {
+                return e.body;
+            }),
+            SmpHttpTwoService.$http({
+                url: localData.urls.error
+            }).catch((e: any) => {
+                return e.body;
+            })
+        ];
+        await Promise.all(promises);
+        expect(generateAjaxBaseSpy).toBeCalledTimes(1);
     });
 
 });

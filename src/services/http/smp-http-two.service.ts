@@ -1,11 +1,13 @@
-import {SmpAbstractTtlCacheStrategy} from "../../shared/utils/cache/smp-abstract-ttl-cache-strategy.class.js";
-import {SmpDynamicFetchReturn} from "./smp-dynamic-fetch-return.type.js";
 import {SmpErrorResponse} from "../../shared/api/smp-error-response.class.js";
 import {SmpGenericConstructor} from "../../shared/common/smp-generic-constructor.type.js";
-import {SmpHttpConfig} from "./smp-http-config.interface.js";
+import {SmpCrypto} from "../../shared/crypto/smp-crypto.class.js";
+import {SmpAbstractTtlCacheStrategy} from "../../shared/utils/cache/smp-abstract-ttl-cache-strategy.class.js";
+import {SmpInMemoryCache} from "../../shared/utils/cache/smp-in-memory-cache.class.js";
+//
+import {SmpDynamicFetchReturn} from "./smp-dynamic-fetch-return.type.js";
 import {SmpHttpSessionStorageCache} from "./smp-http-session-storage-cache.class.js";
 import {SmpHttpStatusCodes} from "./smp-http-status-code.enum.js";
-import {SmpInMemoryCache} from "../../shared/utils/cache/smp-in-memory-cache.class.js";
+import {SmpHttpTwoConfig} from "./smp-http-two-config.interface.js";
 
 interface HttpException<T = any> {
     status: SmpHttpStatusCodes;
@@ -17,29 +19,25 @@ interface ParseableErrorClass<T> {
     fromPlain(plain: unknown): T;
 }
 
-export class SmpHttpService {
+export class SmpHttpTwoService {
 
-    protected static _cachePrefix: string = "smp_rest_cache_";
     protected static _cacheStrategy: SmpAbstractTtlCacheStrategy = typeof sessionStorage !== "undefined"
         ? new SmpHttpSessionStorageCache()
         : new SmpInMemoryCache();
-    protected static _config = {
-        cachePrefix: this._cachePrefix,
-        shared: new Map<string, Promise<any>>()
-    };
     protected static _errorClass: SmpGenericConstructor & ParseableErrorClass<any> = SmpErrorResponse;
-    protected static _mergeParamsFallbackBaseUrl: string = "https://ts-mapi-core.com";
+    protected static _mergeParamsFallbackBaseUrl: string = "https://uc-api-nest-common-fe";
+    protected static _running = new Map<string, Promise<any>>();
 
-    static $http(config: SmpHttpConfig): Promise<SmpDynamicFetchReturn<SmpHttpConfig["responseType"], any>>;
-    static $http<T = any>(config: SmpHttpConfig): Promise<T>;
-    static $http(config: SmpHttpConfig): Promise<SmpDynamicFetchReturn<SmpHttpConfig["responseType"], Blob>>;
-    static $http(config: SmpHttpConfig): Promise<SmpDynamicFetchReturn<SmpHttpConfig["responseType"], ArrayBuffer>>;
-    static $http(config: SmpHttpConfig): Promise<SmpDynamicFetchReturn<SmpHttpConfig["responseType"], string>>;
+    static $http(config: SmpHttpTwoConfig): Promise<SmpDynamicFetchReturn<SmpHttpTwoConfig["responseType"], any>>;
+    static $http<T = any>(config: SmpHttpTwoConfig): Promise<T>;
+    static $http(config: SmpHttpTwoConfig): Promise<SmpDynamicFetchReturn<SmpHttpTwoConfig["responseType"], Blob>>;
+    static $http(config: SmpHttpTwoConfig): Promise<SmpDynamicFetchReturn<SmpHttpTwoConfig["responseType"], ArrayBuffer>>;
+    static $http(config: SmpHttpTwoConfig): Promise<SmpDynamicFetchReturn<SmpHttpTwoConfig["responseType"], string>>;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    static $http<T, U, V>(config: SmpHttpConfig): Promise<SmpDynamicFetchReturn<SmpHttpConfig["responseType"], U>>;
+    static $http<T, U, V>(config: SmpHttpTwoConfig): Promise<SmpDynamicFetchReturn<SmpHttpTwoConfig["responseType"], U>>;
     static $http<T extends object | Blob | ArrayBuffer, U, V>(
-        config: SmpHttpConfig<T>
-    ): Promise<SmpDynamicFetchReturn<SmpHttpConfig["responseType"], U>> {
+        config: SmpHttpTwoConfig<T>
+    ): Promise<SmpDynamicFetchReturn<SmpHttpTwoConfig["responseType"], U>> {
         return this._generateAjax<T, U, V>(config);
     }
 
@@ -49,26 +47,42 @@ export class SmpHttpService {
      * @protected
      */
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    static async _generateAjax<T, U, V = unknown>(config: SmpHttpConfig<T>): Promise<SmpDynamicFetchReturn<typeof config.responseType, U>> {
-        if (config.cacheKey) {
-            const cached = this._cacheRead<U>(config.cacheKey);
+    static async _generateAjax<T, U, V = unknown>(config: SmpHttpTwoConfig<T>): Promise<SmpDynamicFetchReturn<typeof config.responseType, U>> {
+        const uniqueKey = this._generateCacheKey(config);
+        const handleCache = +(config.ttl || 0) > 0;
+        if (handleCache) {
+            const cached = this._cacheStrategy.read<T>(uniqueKey);
             if (cached) {
 
-                return Promise.resolve(cached);
+                return Promise.resolve(cached) as Promise<SmpDynamicFetchReturn<typeof config.responseType, U>>;
             }
 
-            return this._generateAjaxBase<T, U, V>(config).then((response) => {
-                config.cacheKey && this._cacheWrite(config.cacheKey, response);
-
-                return response;
-            });
         }
 
-        return this._generateAjaxBase<T, U, V>(config);
+        // Dedupe: reuse an in-flight promise keyed by uniqueKey if present
+        const inFlight = this._running.get(uniqueKey);
+        if (inFlight) {
+
+            return inFlight as Promise<SmpDynamicFetchReturn<typeof config.responseType, U>>;
+        }
+        const requestPromise = this._generateAjaxBase<T, U, V>(config)
+            .then((response) => {
+                if (handleCache) {
+                    this._cacheStrategy.write(uniqueKey, response, config.ttl);
+                }
+
+                return response;
+            })
+            .finally(() => {
+                this._running.delete(uniqueKey);
+            });
+        this._running.set(uniqueKey, requestPromise);
+
+        return requestPromise;
     }
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    static async _generateAjaxBase<T, U, V = unknown>(config: SmpHttpConfig<T>): Promise<SmpDynamicFetchReturn<typeof config.responseType, U>> {
+    static async _generateAjaxBase<T, U, V = unknown>(config: SmpHttpTwoConfig<T>): Promise<SmpDynamicFetchReturn<typeof config.responseType, U>> {
         const processedConfig = await this._preprocessRequest(config);
         const opts: RequestInit = {
             method: processedConfig.method,
@@ -112,7 +126,8 @@ export class SmpHttpService {
                     let rejectValue: V | typeof this._errorClass = json;
                     // to be able to access error status when you catch the error
                     try {
-                        rejectValue = this._errorClass.fromPlain(json);
+                        // rejectValue = plainToInstance(this._errorClass, json);
+                        rejectValue = this._errorClass.fromPlain(json) as V;
                     }
                     catch (e) {
                         console.debug("http: failed to parse error response into ErrorResponse", e);
@@ -131,7 +146,7 @@ export class SmpHttpService {
         this._cacheStrategy.flush();
     }
 
-    static mergeQueryParams(url: string, queryParams: SmpHttpConfig["queryParams"]) {
+    static mergeQueryParams(url: string, queryParams: SmpHttpTwoConfig["queryParams"]) {
         const isAbsoluteUrl = url.startsWith("http");
         if (queryParams) {
             const tmpUrl = new URL(url, globalThis?.location?.origin || this._mergeParamsFallbackBaseUrl);
@@ -151,36 +166,25 @@ export class SmpHttpService {
 
     // Protected
 
-    protected static _cacheKey(key: string): string {
-        return `${this._config.cachePrefix}${key}`;
+    protected static _generateCacheKey(config: SmpHttpTwoConfig): string {
+        let baseKey = `${config.method}:${config.url}`;
+
+        if (config.queryParams && Object.keys(config.queryParams).length > 0) {
+            baseKey += `:${SmpCrypto.md5(JSON.stringify(config.queryParams))}`;
+        }
+
+        return config.body && Object.keys(config.body).length > 0
+            ? `${baseKey}:${SmpCrypto.md5(JSON.stringify(config.body))}`
+            : baseKey;
     }
 
-    protected static _cachePop<T = any>(key: string): T | void {
-        const value = this._cacheRead<T>(key);
-        this._cacheRemove(key);
-
-        return value;
-    }
-
-    protected static _cacheRead<T>(key: string): T | void {
-        return this._cacheStrategy.read<T>(this._cacheKey(key));
-    }
-
-    protected static _cacheRemove(key: string): void {
-        this._cacheStrategy.remove(this._cacheKey(key));
-    }
-
-    protected static _cacheWrite<T>(key: string, value: T): void {
-        this._cacheStrategy.write<T>(this._cacheKey(key), value);
-    }
-
-    protected static async _preprocessRequest<T>(config: SmpHttpConfig<T>): Promise<SmpHttpConfig<T>> {
-        // Empty base hook that you can override in a derived class
+    protected static async _preprocessRequest<T>(config: SmpHttpTwoConfig<T>): Promise<SmpHttpTwoConfig<T>> {
+        // Empty base hook that you can override in derived classes
         return config;
     }
 
-    protected static async _preprocessResponse<T>(_config_: SmpHttpConfig<T>, res: Response): Promise<Response> {
-        // Empty base hook that you can override in a derived class
+    protected static async _preprocessResponse<T>(_config_: SmpHttpTwoConfig<T>, res: Response): Promise<Response> {
+        // Empty base hook that you can override in derived classes
         return res;
     }
 
