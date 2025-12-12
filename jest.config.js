@@ -6,8 +6,12 @@ export default {
                 useESM: true,
                 tsconfig: "test/tsconfig.json"
             }
-        ]
+        ],
+        "^.+\\.js$": "babel-jest"
     },
+    transformIgnorePatterns: [
+        "/node_modules/(?!lodash-es)"
+    ],
     extensionsToTreatAsEsm: [".ts"],
     moduleNameMapper: {
         "^(\\.{1,2}/.*)\\.js$": "$1"

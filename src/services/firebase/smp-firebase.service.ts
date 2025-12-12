@@ -308,7 +308,7 @@ export class SmpFirebaseService {
             this._loggedUser = user;
         }
         catch (error) {
-            this._logger.warn("Firebase: couldn't update local user", {
+            this._logger.debug("Firebase: couldn't update local user", {
                 user,
                 error
             });

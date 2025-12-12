@@ -29,7 +29,7 @@ import {smpRxjsThrowIfEmpty} from "./smp-rxjs-throw-if-empty.function.js";
  */
 export function smpRxjsThrowOnCondition<T>(
     condition: (value: T) => boolean,
-    errorFactory?: () => any
+    errorFactory?: (value: T) => any
 ): OperatorFunction<T, T> {
     return (source: Observable<T>) =>
         source.pipe(

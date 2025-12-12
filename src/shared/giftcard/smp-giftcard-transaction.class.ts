@@ -1,9 +1,8 @@
 import {MD5, md5Helper, SHA1, sha1Helper, Utf8, WordArray} from "@tonysamperi/krypto";
-import {SmpLoggerMethods} from "@tonysamperi/logger";
 import {Expose, instanceToPlain, plainToInstance} from "class-transformer";
 import {DateTime} from "ts-luxon";
 //
-import {SmpAesCrypt} from "../crypto/smp-aes-crypt.class";
+import {SmpAesCrypt} from "../crypto/smp-aes-crypt.class.js";
 import {SmpGiftcardTransactionOps} from "./smp-giftcard-transaction-ops.enum.js";
 import {SmpGiftcardTransactionPlain} from "./smp-giftcard-transaction-plain.interface.js";
 import {SmpGiftcardTransactionConfig} from "./smp-giftcard-transaction-config.interface.js";
@@ -11,7 +10,7 @@ import {SmpGiftcardTransactionHashStrategies} from "./smp-giftcard-transaction-h
 
 /**
  * Base implementation that you can extend, even customizing the static parts like #SmpGiftcardTransaction._AES_ENCODER.
- * You can create your own instance of KikAesCrypt to override it.
+ * You can create your own instance of SmpAesCrypt to override it.
  */
 export class SmpGiftcardTransaction implements SmpGiftcardTransactionPlain {
 
@@ -21,8 +20,7 @@ export class SmpGiftcardTransaction implements SmpGiftcardTransactionPlain {
         "5f6eae61d2428b99",
         "d92fbf214e16a79fd36f9a5185ae733f"
     );
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    protected static _LOGGER: SmpLoggerMethods = console;
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     protected static _OP_CODES: Record<SmpGiftcardTransactionOps, string> = {
         [SmpGiftcardTransactionOps.CHECK]: "", // Doesn't need transaction
@@ -114,7 +112,7 @@ export class SmpGiftcardTransaction implements SmpGiftcardTransactionPlain {
         const constructor = (this.constructor as typeof SmpGiftcardTransaction);
         const parts = (transactionId || "").split(constructor._SEP);
         if (parts.length < 4) {
-            throw new Error(`INVALID_TRANSACTION "${transactionId}"`);
+            throw new Error(`${this.constructor.name}::explode: invalid transactionId provided => "${transactionId}"`);
         }
 
         return this.build({
@@ -130,7 +128,7 @@ export class SmpGiftcardTransaction implements SmpGiftcardTransactionPlain {
     }
 
     static parse(transactionId: string) {
-        this._LOGGER.info(`${this.constructor.name}: trying to parse ${transactionId}`);
+        console.info(`${this.constructor.name}::parse: trying to parse ${transactionId}`);
         try {
             // New transaction format
             if (this.isBase64(transactionId)) {
@@ -144,8 +142,8 @@ export class SmpGiftcardTransaction implements SmpGiftcardTransactionPlain {
             }
         }
         catch (e) {
-            this._LOGGER.error(`${this.constructor.name}: failed to parse ${transactionId}`, e);
-            throw new Error(`UNPARSEABLE "${transactionId}"`);
+            console.error(`${this.constructor.name}::parse: failed to parse ${transactionId}`, e);
+            throw new Error(`${this.constructor.name}::parse: could not parse transactionId ${transactionId}`);
         }
     }
 

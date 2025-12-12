@@ -147,21 +147,39 @@ export class SmpHttpTwoService {
     }
 
     static mergeQueryParams(url: string, queryParams: SmpHttpTwoConfig["queryParams"]) {
-        const isAbsoluteUrl = url.startsWith("http");
-        if (queryParams) {
-            const tmpUrl = new URL(url, globalThis?.location?.origin || this._mergeParamsFallbackBaseUrl);
-            const existingParams = Object.fromEntries(tmpUrl.searchParams.entries());
-            tmpUrl.search = new URLSearchParams({
-                ...existingParams,
-                // Normalize the params to string
-                ...Object.fromEntries(
-                    Object.entries(queryParams).map(([key, value]) => [key, `${value}`])
-                )
-            }).toString();
-            url = isAbsoluteUrl ? tmpUrl.href : tmpUrl.pathname + tmpUrl.search;
+        if (!queryParams || Object.keys(queryParams).length === 0) {
+            return url;
         }
 
-        return url;
+        const isAbsoluteUrl = url.startsWith("http");
+        const baseUrl = new URL(
+            url,
+            globalThis?.location?.origin || this._mergeParamsFallbackBaseUrl
+        );
+
+        const existingParams = Object.fromEntries(new URLSearchParams(baseUrl.search).entries());
+        const mergedParams = {...existingParams, ...queryParams};
+        const pairs: string[] = [];
+        for (const [key, value] of Object.entries(mergedParams)) {
+            if (value == null) {
+                continue;
+            }
+
+            if (Array.isArray(value)) {
+                for (const v of value) {
+                    pairs.push(`${encodeURIComponent(key)}=${encodeURIComponent(String(v))}`);
+                }
+            }
+            else {
+                pairs.push(`${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`);
+            }
+        }
+
+        const queryString = pairs.length ? `?${pairs.join("&")}` : "";
+        const basePath = baseUrl.origin + baseUrl.pathname;
+        const finalUrl = basePath + queryString;
+
+        return isAbsoluteUrl ? finalUrl : finalUrl.replace(baseUrl.origin, "");
     }
 
     // Protected

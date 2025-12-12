@@ -1,6 +1,6 @@
 {
   "name": "@tonysamperi/ts-mapi-core",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "description": "A set of shared utils to be used at BE or FE",
   "type": "module",
   "types": "./dist/esm/index.d.ts",
@@ -65,11 +65,21 @@
   },
   "typesVersions": {
     "*": {
-      "": ["./dist/cjs/index.d.cts"],
-      "dynamo": ["./dist/cjs/dynamo.d.cts"],
-      "firebase": ["./dist/cjs/firebase.d.cts"],
-      "rxjs": ["./dist/cjs/rxjs.d.cts"],
-      "zod": ["./dist/cjs/zod.d.cts"]
+      "": [
+        "./dist/cjs/index.d.cts"
+      ],
+      "dynamo": [
+        "./dist/cjs/dynamo.d.cts"
+      ],
+      "firebase": [
+        "./dist/cjs/firebase.d.cts"
+      ],
+      "rxjs": [
+        "./dist/cjs/rxjs.d.cts"
+      ],
+      "zod": [
+        "./dist/cjs/zod.d.cts"
+      ]
     }
   },
   "sideEffects": false,
@@ -105,22 +115,27 @@
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.758.0",
     "@aws-sdk/util-dynamodb": "^3.758.0",
+    "@babel/preset-env": "^7.28.5",
     "@pollyjs/adapter-fetch": "^6.0.6",
     "@pollyjs/core": "^6.0.6",
     "@pollyjs/persister-fs": "^6.0.6",
     "@swc/core": "^1.13.2",
     "@tonysamperi/krypto": "^1.0.0",
     "@tonysamperi/logger": "^2.0.0",
+    "@types/babel__preset-env": "^7",
     "@types/jest": "~29.5.14",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.13.8",
     "@types/setup-polly-jest": "^0",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
     "@typescript-eslint/parser": "^8.32.0",
+    "babel-jest": "^30.2.0",
     "class-transformer": "^0.5.1",
     "eslint": "^9.26.0",
     "firebase": "^11.4.0",
-    "glob": "^11.0.3",
+    "glob": "^11.1.0",
     "jest": "~29.7.0",
+    "lodash-es": "^4.17.21",
     "reflect-metadata": "^0.1.14",
     "replace-in-file": "^8.3.0",
     "rxjs": "^7.5.6",

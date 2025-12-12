@@ -1,6 +1,9 @@
+import isEqual from "lodash-es/isEqual";
+//
+import {SmpRestVerbs} from "../api/smp-rest-verbs.enum.js";
+//
 import {smpAsciiWords} from "./smp-ascii-words.function.js";
 import {SmpUnicodeWords} from "./smp-unicode-words.class.js";
-import {SmpRestVerbs} from "../api/smp-rest-verbs.enum.js";
 
 export class SmpCommonUtils {
     /**
@@ -174,65 +177,7 @@ export class SmpCommonUtils {
      * @returns boolean
      */
     static isEqual(value1: any, value2: any): boolean {
-        function areArraysEqual() {
-            // Check length
-            if (value1.length !== value2.length) {
-                return false;
-            }
-            // Check each item in the array
-            for (let i = 0; i < value1.length; i++) {
-                if (!SmpCommonUtils.isEqual(value1[i], value2[i])) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        function areObjectsEqual() {
-            if (Object.keys(value1).length !== Object.keys(value2).length) {
-                return false;
-            }
-
-            // Check each item in the object
-            for (const key in value1) {
-                if (Object.prototype.hasOwnProperty.call(value1, key)) {
-                    if (!SmpCommonUtils.isEqual(value1[key], value2[key])) {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        function areFunctionsEqual() {
-            return value1.toString() === value2.toString();
-        }
-
-        function arePrimativesEqual() {
-            return value1 === value2;
-        }
-
-        // Get the object type
-        const type = this.getType(value1);
-
-        // If the two items are not the same type, return false
-        if (type !== this.getType(value2)) {
-            return false;
-        }
-
-        // Compare based on type
-        if (type === "array") {
-            return areArraysEqual();
-        }
-        if (type === "object") {
-            return areObjectsEqual();
-        }
-        if (type === "function") {
-            return areFunctionsEqual();
-        }
-        return arePrimativesEqual();
+        return isEqual(value1, value2);
     }
 
     static isFormField(el: HTMLElement): boolean {
@@ -314,11 +259,15 @@ export class SmpCommonUtils {
 
     static mapObjectKeys<T extends string = string>(
         obj: Record<T, any>,
-        callback: (key: string, value: any) => any
+        callback: (key: string, value: any) => string
     ): Record<string, any> {
-        return Object.entries(obj).reduce((acc: Record<string, any>, [key, value]) => {
-            acc[key] = callback.call(null, key, value);
+        if (!this.isObject(obj)) {
+            return {};
+        }
 
+        return Object.entries(obj).reduce((acc: Record<string, any>, [key, value]) => {
+            const newKey = callback(key, value);
+            acc[newKey] = value;
             return acc;
         }, {});
     }

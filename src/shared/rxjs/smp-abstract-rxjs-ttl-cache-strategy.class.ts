@@ -56,7 +56,9 @@ export abstract class SmpAbstractRxjsTtlCacheStrategy extends SmpAbstractCacheSt
         }
 
         // Fire-and-forget
-        obs$.subscribe();
+        obs$.subscribe({
+            error: (err) => console.error(`${this.constructor.name}::write: error occurred`, err)
+        });
 
         return obs$;
     }

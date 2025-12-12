@@ -3,6 +3,7 @@ import {Expose, instanceToPlain, plainToInstance, Transform} from "class-transfo
 import {SmpGenericResponseBase} from "./smp-generic-response-base.interface.js";
 import {SmpResponseMessage} from "./smp-response-message.class.js";
 import {SmpResponseMessageTypes} from "./smp-response-message-types.enum.js";
+import {SmpGenericResponseCreateOpts} from "./smp-generic-response-create-opts.interface.js";
 
 export class SmpGenericResponse<T, U = SmpGenericResponseBase> implements SmpGenericResponseBase<T> {
 
@@ -19,17 +20,12 @@ export class SmpGenericResponse<T, U = SmpGenericResponseBase> implements SmpGen
     constructor(protected _messages: SmpResponseMessage[] = [], public data?: T) {
     }
 
-    static buildInfo<T = any>(msg: string | string[], data?: T): SmpGenericResponse<T> {
+    static create<T = any>(config: Partial<SmpGenericResponseCreateOpts<T>>): SmpGenericResponse<T> {
         return new SmpGenericResponse<T>(
-            [msg].flat().map((m) => new SmpResponseMessage(m, SmpResponseMessageTypes.INFO)),
-            data
-        );
-    }
-
-    static buildSuccess<T = any>(msg: string | string [], data?: T): SmpGenericResponse<T> {
-        return new SmpGenericResponse<T>(
-            [msg].flat().map((m) => new SmpResponseMessage(m, SmpResponseMessageTypes.SUCCESS)),
-            data
+            [config.messages || []].flat().map((m) => {
+                return m instanceof SmpResponseMessage ? m : new SmpResponseMessage(m, config.type || SmpResponseMessageTypes.SUCCESS);
+            }),
+            config.data
         );
     }
 
@@ -37,12 +33,13 @@ export class SmpGenericResponse<T, U = SmpGenericResponseBase> implements SmpGen
         return plainToInstance(SmpGenericResponse, plain);
     }
 
+
     isError(): boolean {
         return !this.isSuccess();
     }
 
     isSuccess(): boolean {
-        return "_errorCode" in this && this._errorCode !== null && this._errorCode !== void 0;
+        return typeof (this as any)["_errorCode"] === typeof 0;
     }
 
     serialize(): U {

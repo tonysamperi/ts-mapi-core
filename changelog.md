@@ -1,3 +1,10 @@
+## 2.0.0
+* Split modules
+* Add toLowerCase to email schema
+* Fix HttpTwoService not encoding "+", rely on manual encoding for more predictable behaviour compared to URLSearchParams / URL
+* Fix signature of kikRxjsThrowOnCondition
+* Switch to lodash-es for KikCommonUtils.isEqual
+
 ## 1.8.0
 * Made SmpGenericConstructor GENERIC!
 * Add SmpBaseJwtToken and SmpBaseJwtTokenPlain
@@ -7,7 +14,7 @@
 ## 1.7.0
 * Added smpApplyMixin
 * Added smpRxjsQueue + smpRxjsSequence
-* Misc fixes on giftcard stuff
+* Misc fixes on gift card stuff
 
 ## 1.6.2
 * Fix imports
