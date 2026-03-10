@@ -29,6 +29,16 @@ describe("SmpCommonUtils", () => {
         }
     });
 
+    it("should map object keys to camel case", () => {
+        const from = {
+            foo_bar: "fooBar"
+        };
+        const to = SmpCommonUtils.mapObjectKeys(from, (key) => SmpCommonUtils.toCamelCase(key));
+        expect(to).toEqual({
+            fooBar: "fooBar"
+        });
+    });
+
     it("should handle assertions", () => {
         function drinkOctopus(this: any) {
             // console.debug(`Calling ${this.method}, with ${this.values}`);
@@ -157,5 +167,19 @@ describe("SmpCommonUtils", () => {
             expect(SmpCommonUtils.isEqual(set1, set2)).toBe(true);
             expect(SmpCommonUtils.isEqual(set1, set3)).toBe(false);
         });
+
+        it("should fix decimal precision", () => {
+            expect(SmpCommonUtils.fixDecimalPrecision(1.005)).toBe(1.01);
+            expect(SmpCommonUtils.fixDecimalPrecision(2.675)).toBe(2.68);
+            expect(SmpCommonUtils.fixDecimalPrecision(0.1 + 0.2)).toBe(0.3);
+            expect(SmpCommonUtils.fixDecimalPrecision(10)).toBe(10);
+            expect(SmpCommonUtils.fixDecimalPrecision(9.99)).toBe(9.99);
+            expect(SmpCommonUtils.fixDecimalPrecision(1.2345, 3)).toBe(1.235);
+            expect(SmpCommonUtils.fixDecimalPrecision(1.2344, 3)).toBe(1.234);
+            expect(SmpCommonUtils.fixDecimalPrecision(123.456789, 4)).toBe(123.4568);
+            expect(SmpCommonUtils.fixDecimalPrecision(-1.005)).toBe(-1);
+            expect(SmpCommonUtils.fixDecimalPrecision(-2.675)).toBe(-2.67);
+        });
     });
 });
+
