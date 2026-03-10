@@ -12,14 +12,15 @@ import {
 
 // THIS CAN BE SAFELY USED AT FE, FOR TESTING BUT NOT ONLY :)
 export class SmpAesCrypt {
-    protected get _iv(): WordArray | undefined {
-        return this._initVector ? Hex.parse(this._initVector) : void 0;
-    }
 
+    protected _iv: WordArray | undefined;
+    protected _key: WordArray;
     protected _mode: typeof CBC = CBC;
     protected _padding: typeof PKCS7 = PKCS7;
 
     constructor(protected _password: string, protected _salt: string, protected _initVector?: string) {
+        this._iv = this._initVector ? Hex.parse(this._initVector) : void 0;
+        this._key = this._buildKey();
     }
 
     /**
@@ -28,7 +29,7 @@ export class SmpAesCrypt {
      * @returns {string}
      */
     decryptAES(data: string): string {
-        return aesHelper.decrypt(data, this._buildKey(), {
+        return aesHelper.decrypt(data, this._key, {
             iv: this._iv,
             mode: this._mode,
             padding: this._padding
@@ -41,7 +42,7 @@ export class SmpAesCrypt {
      * @returns {string}
      */
     encryptAES(data: string): string {
-        return aesHelper.encrypt(data, this._buildKey(), {
+        return aesHelper.encrypt(data, this._key, {
             iv: this._iv,
             mode: this._mode,
             padding: this._padding

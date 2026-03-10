@@ -103,6 +103,14 @@ export class SmpCommonUtils {
         link.click();
     }
 
+    static fixDecimalPrecision(value: number, precision: number = 2): number {
+        this.assertIsNumber(value);
+        this.assertIsNumber(precision);
+        const p = Math.max(0, Math.trunc(precision));
+        const factor = 10 ** p;
+        return Math.round((value + Number.EPSILON) * factor) / factor;
+    }
+
     static generateRandomHexString(length: number = 12): string {
         const chars = "0123456789abcdef";
         let hexString = "";

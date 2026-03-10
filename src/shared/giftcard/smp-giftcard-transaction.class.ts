@@ -82,7 +82,7 @@ export class SmpGiftcardTransaction implements SmpGiftcardTransactionPlain {
 
     /**
      *
-     * @param gc giftcard code
+     * @param gc gift card code
      * @param op operation
      * @param ot original transaction in case of refund
      * @param unixTimestampOrMilliseconds

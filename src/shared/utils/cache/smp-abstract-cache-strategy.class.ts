@@ -7,9 +7,9 @@ import {Observable} from "rxjs";
  * For instance, for a local cache, you may stay sync, while for a Valkey cache, you should start with the rxjs.
  */
 export abstract class SmpAbstractCacheStrategy {
-    abstract read<T = any>(key: string): T | undefined | Observable<T | undefined>;
+    abstract read<T = unknown>(key: string): T | undefined | Observable<T | undefined>;
 
-    abstract write<T = any>(key: string, value: T, ttl?: number): void | Observable<void>;
+    abstract write<T = unknown>(key: string, value: T, ttl?: number): void | Observable<void>;
 
     abstract remove(key: string): void | Observable<void>;
 

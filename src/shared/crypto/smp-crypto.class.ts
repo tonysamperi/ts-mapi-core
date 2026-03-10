@@ -1,4 +1,4 @@
-import {Base64, md5Helper, sha1Helper, sha256Helper, sha512Helper, Utf8} from "@tonysamperi/krypto";
+import {Base64, md5Helper, sha1Helper, sha256Helper, sha512Helper, Utf8, correlationIdHelper} from "@tonysamperi/krypto";
 
 export class SmpCrypto {
 
@@ -8,6 +8,10 @@ export class SmpCrypto {
 
     static base64Encode(str: string): string {
         return Base64.stringify(Utf8.parse(str));
+    }
+
+    static generateCorrelationId(): string {
+        return correlationIdHelper();
     }
 
     static md5(data: string): string {

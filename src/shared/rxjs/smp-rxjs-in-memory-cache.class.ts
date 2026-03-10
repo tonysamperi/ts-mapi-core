@@ -4,26 +4,33 @@ import {SmpAbstractRxjsTtlCacheStrategy} from "./smp-abstract-rxjs-ttl-cache-str
 
 export class SmpRxjsInMemoryCache extends SmpAbstractRxjsTtlCacheStrategy {
 
-    private static _storage = new Map<string, any>();
+    private static _storage = new Map<string, unknown>();
 
     protected get _staticSelf(): typeof SmpRxjsInMemoryCache {
         return this.constructor as typeof SmpRxjsInMemoryCache;
     }
 
     protected _flushRaw(): Observable<void> {
-        this._staticSelf._storage.clear();
+        return defer(() => {
+            this._staticSelf._storage.clear();
 
-        return of(void 0);
+            return of(void 0);
+        });
     }
 
-    protected _readRaw(key: string): Observable<any | undefined> {
-        return of(this._staticSelf._storage.get(key));
+    protected _readRaw(key: string): Observable<unknown | undefined> {
+        return defer(() => {
+
+            return of(this._staticSelf._storage.get(key));
+        });
     }
 
     protected _removeRaw(key: string): Observable<void> {
-        this._staticSelf._storage.delete(key);
+        return defer(() => {
+            this._staticSelf._storage.delete(key);
 
-        return of(void 0);
+            return of(void 0);
+        });
     }
 
     protected _writeRaw(key: string, value: any): Observable<void> {

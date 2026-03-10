@@ -19,7 +19,7 @@ export abstract class SmpAbstractRxjsTtlCacheStrategy extends SmpAbstractCacheSt
         return this._flushRaw();
     }
 
-    read<T = any>(key: string): Observable<T | undefined> {
+    read<T = unknown>(key: string): Observable<T | undefined> {
         return this._readRaw(key).pipe(
             map((storedValue) => {
                 if (this._isSmpCachedValue<T>(storedValue)) {

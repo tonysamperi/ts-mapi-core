@@ -4196,9 +4196,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonysamperi/krypto@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@tonysamperi/krypto@npm:1.0.0"
+"@tonysamperi/krypto@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@tonysamperi/krypto@npm:1.1.0"
   dependencies:
     "@types/crypto-js": "npm:^4"
     crypto-js: "npm:^4.2.0"
@@ -4207,7 +4207,7 @@ __metadata:
       optional: true
     crypto-js:
       optional: true
-  checksum: 10c0/4485ed62489927bb6fb45a06a8e1774c911bb5a1e5b8c9b7ba371e0ed35a6d44d6ffe0369fac7387a1ef930f56dfd82641bc54276d1443e2c92babfee36ecacd
+  checksum: 10c0/baf55b5bdf5eb6b00362d6c3e398c5be1e5319c5a4584eb1c377b2137bd37efab4ede99cd42230a602ff2a324dcaf2cbd2900843e36361ff8f23c09c80bb1b78
   languageName: node
   linkType: hard
 
@@ -4229,7 +4229,7 @@ __metadata:
     "@pollyjs/core": "npm:^6.0.6"
     "@pollyjs/persister-fs": "npm:^6.0.6"
     "@swc/core": "npm:^1.13.2"
-    "@tonysamperi/krypto": "npm:^1.0.0"
+    "@tonysamperi/krypto": "npm:^1.1.0"
     "@tonysamperi/logger": "npm:^2.0.0"
     "@types/babel__preset-env": "npm:^7"
     "@types/jest": "npm:~29.5.14"
@@ -4244,8 +4244,8 @@ __metadata:
     firebase: "npm:^11.4.0"
     glob: "npm:^11.1.0"
     jest: "npm:~29.7.0"
-    lodash-es: "npm:^4.17.21"
-    reflect-metadata: "npm:^0.1.14"
+    lodash-es: "npm:^4.17.23"
+    reflect-metadata: "npm:^0.2.2"
     replace-in-file: "npm:^8.3.0"
     rxjs: "npm:^7.5.6"
     setup-polly-jest: "npm:^0.11.0"
@@ -7418,6 +7418,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash-es@npm:^4.17.23":
+  version: 4.17.23
+  resolution: "lodash-es@npm:4.17.23"
+  checksum: 10c0/3150fb6660c14c7a6b5f23bd11597d884b140c0e862a17fdb415aaa5ef7741523182904a6b7929f04e5f60a11edb5a79499eb448734381c99ffb3c4734beeddd
+  languageName: node
+  linkType: hard
+
 "lodash.camelcase@npm:^4.3.0":
   version: 4.3.0
   resolution: "lodash.camelcase@npm:4.3.0"
@@ -8358,10 +8365,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.1.14":
-  version: 0.1.14
-  resolution: "reflect-metadata@npm:0.1.14"
-  checksum: 10c0/3a6190c7f6cb224f26a012d11f9e329360c01c1945e2cbefea23976a8bacf9db6b794aeb5bf18adcb673c448a234fbc06fc41853c00a6c206b30f0777ecf019e
+"reflect-metadata@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "reflect-metadata@npm:0.2.2"
+  checksum: 10c0/1cd93a15ea291e420204955544637c264c216e7aac527470e393d54b4bb075f10a17e60d8168ec96600c7e0b9fcc0cb0bb6e91c3fbf5b0d8c9056f04e6ac1ec2
   languageName: node
   linkType: hard
 

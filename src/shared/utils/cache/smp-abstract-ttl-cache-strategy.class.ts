@@ -18,7 +18,7 @@ export abstract class SmpAbstractTtlCacheStrategy extends SmpAbstractCacheStrate
         this._flushRaw();
     }
 
-    read<T = any>(key: string): T | undefined {
+    read<T = unknown>(key: string): T | undefined {
         const storedValue = this._readRaw(key);
         if (this._isSmpCachedValue<T>(storedValue)) {
             if (storedValue.expiry >= DateTime.now().ts) {
@@ -36,7 +36,7 @@ export abstract class SmpAbstractTtlCacheStrategy extends SmpAbstractCacheStrate
     }
 
 
-    write<T = any>(key: string, value: T, ttl?: number): void {
+    write<T = unknown>(key: string, value: T, ttl?: number): void {
         if (isNaN(+ttl!) || +ttl! <= 0) {
             this._writeRaw(key, value, ttl);
             return;
