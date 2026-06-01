@@ -4,6 +4,9 @@
 * Fix HttpTwoService not encoding "+", rely on manual encoding for more predictable behaviour compared to URLSearchParams / URL
 * Fix signature of kikRxjsThrowOnCondition
 * Switch to lodash-es for KikCommonUtils.isEqual
+* Add SmpAesCryptV2 (more secure)
+* Add SmpCommonUtils#stripHtml
+* Add SmpCommonUtils#_decodeHtmlEntities
 
 ## 1.8.0
 * Made SmpGenericConstructor GENERIC!

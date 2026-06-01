@@ -1,6 +1,6 @@
 {
   "name": "@tonysamperi/ts-mapi-core",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0",
   "description": "A set of shared utils to be used at BE or FE",
   "type": "module",
   "types": "./dist/esm/index.d.ts",
@@ -94,12 +94,16 @@
     "check-exports": "node scripts/check-exports.js",
     "lint": "eslint && tsc --noEmit",
     "prepublishOnly": "npm run build && npm run check-exports",
-    "release": "npm publish",
-    "release:beta": "npm publish --tag beta",
-    "release:next": "npm publish --tag next",
+    "release": "npm publish --access public --provenance",
+    "release:beta": "npm publish --access public --tag beta --provenance",
+    "release:next": "npm publish --access public --tag next --provenance",
     "test": "jest"
   },
   "author": "Tony Samperi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tonysamperi/ts-mapi-core"
+  },
   "license": "ISC",
   "peerDependencies": {
     "@aws-sdk/client-dynamodb": "^3.758.0",

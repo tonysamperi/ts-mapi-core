@@ -366,6 +366,20 @@ export class SmpCommonUtils {
         return typeof html === typeof "" ? html.replace(/(<!--.*?-->)|(<!--[\S\s]+?-->)|(<!--[\S\s]*?$)/g, "") : html;
     }
 
+    /**
+     * Strips all HTML from a string.
+     * @param html
+     * @param decodeEntities should decode entities? Default TRUE
+     */
+    static stripHtml(html: string, decodeEntities: boolean = !0): string {
+        this.assertIsString(html);
+
+        const noTags = html.replace(/<[^>]*>?/g, "");
+        const decoded = decodeEntities ? this._decodeHtmlEntities(noTags) : noTags;
+
+        return decoded.replace(/\s+/g, " ").trim();
+    }
+
     static submitFakeForm<T extends object = object>({
                                                          action,
                                                          method = SmpRestVerbs.POST,
@@ -420,6 +434,36 @@ export class SmpCommonUtils {
             return result || [];
         }
         return string.match(pattern) || [];
+    }
+
+    protected static _decodeHtmlEntities(value: string): string {
+        const entitiesMap: Record<string, string> = {
+            amp: "&",
+            apos: "'",
+            euro: "€",
+            gt: ">",
+            lt: "<",
+            nbsp: " ",
+            quot: "\""
+        };
+
+        return value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (match, entity: string) => {
+            const normalisedEntity = entity.toLowerCase();
+
+            if (normalisedEntity.startsWith("#x")) {
+                const parsedCode = Number.parseInt(normalisedEntity.slice(2), 16);
+
+                return Number.isNaN(parsedCode) ? match : String.fromCodePoint(parsedCode);
+            }
+
+            if (normalisedEntity.startsWith("#")) {
+                const parsedCode = Number.parseInt(normalisedEntity.slice(1), 10);
+
+                return Number.isNaN(parsedCode) ? match : String.fromCodePoint(parsedCode);
+            }
+
+            return entitiesMap[normalisedEntity] || match;
+        });
     }
 
 }
