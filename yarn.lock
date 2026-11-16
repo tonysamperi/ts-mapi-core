@@ -4240,6 +4240,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^8.32.0"
     babel-jest: "npm:^30.2.0"
     class-transformer: "npm:^0.5.1"
+    diff: "npm:^9.0.0"
     eslint: "npm:^9.26.0"
     firebase: "npm:^11.4.0"
     glob: "npm:^11.1.0"
@@ -5478,6 +5479,13 @@ __metadata:
   version: 29.6.3
   resolution: "diff-sequences@npm:29.6.3"
   checksum: 10c0/32e27ac7dbffdf2fb0eb5a84efd98a9ad084fbabd5ac9abb8757c6770d5320d2acd172830b28c4add29bb873d59420601dfc805ac4064330ce59b1adfd0593b2
+  languageName: node
+  linkType: hard
+
+"diff@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "diff@npm:9.0.0"
+  checksum: 10c0/a971cc88f66071a33bd3942db2f51b57d484e9856265ae45cf44fb28ab2fde91f132d9c26d8be0fb6082d2be94d29e1295c1adb251b7461935d6a2dd304cd161
   languageName: node
   linkType: hard
 
