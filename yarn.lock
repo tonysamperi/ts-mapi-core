@@ -4196,9 +4196,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonysamperi/krypto@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@tonysamperi/krypto@npm:1.1.0"
+"@tonysamperi/krypto@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@tonysamperi/krypto@npm:1.2.0"
   dependencies:
     "@types/crypto-js": "npm:^4"
     crypto-js: "npm:^4.2.0"
@@ -4207,7 +4207,7 @@ __metadata:
       optional: true
     crypto-js:
       optional: true
-  checksum: 10c0/baf55b5bdf5eb6b00362d6c3e398c5be1e5319c5a4584eb1c377b2137bd37efab4ede99cd42230a602ff2a324dcaf2cbd2900843e36361ff8f23c09c80bb1b78
+  checksum: 10c0/2ad284fdebeeac6fb72253a9cb8b1d48a800d7b63a744ad64eb159748f3fcbedfebcedced1de0bc5f35a0582e936f3ac33539550a3c3e4ca8da31e41d51db309
   languageName: node
   linkType: hard
 
@@ -4229,7 +4229,7 @@ __metadata:
     "@pollyjs/core": "npm:^6.0.6"
     "@pollyjs/persister-fs": "npm:^6.0.6"
     "@swc/core": "npm:^1.13.2"
-    "@tonysamperi/krypto": "npm:^1.1.0"
+    "@tonysamperi/krypto": "npm:^1.2.0"
     "@tonysamperi/logger": "npm:^2.0.0"
     "@types/babel__preset-env": "npm:^7"
     "@types/jest": "npm:~29.5.14"

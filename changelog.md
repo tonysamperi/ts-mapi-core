@@ -4,6 +4,8 @@
 * Add timeout option to SmpHttpTwoConfig
 * Fix smpZodDateTime duplicating the path in min/max/between issues of nested schemas
 * smpZodDateTime coercion of strings now requires ISO 8601 (DateTime.fromISO) instead of new Date()
+* Add SmpCrypto#generateUuidV4
+* Update @tonysamperi/krypto (dev) to ^1.2.0
 
 ## 2.0.0
 * Split modules
