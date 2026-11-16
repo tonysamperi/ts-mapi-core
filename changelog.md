@@ -6,6 +6,7 @@
 * smpZodDateTime coercion of strings now requires ISO 8601 (DateTime.fromISO) instead of new Date()
 * Add SmpCrypto#generateUuidV4
 * Update @tonysamperi/krypto (dev) to ^1.2.0
+* Add SmpErrorResponseWithStackTrace
 
 ## 2.0.0
 * Split modules
