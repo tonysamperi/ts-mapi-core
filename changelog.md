@@ -2,6 +2,8 @@
 * Add SmpFirebaseClient, allowing multi instance and tenant support (SmpFirebaseService now extends it)
 * Add SmpFirebaseClient#addIdTokenChangedCallback
 * Add timeout option to SmpHttpTwoConfig
+* Fix smpZodDateTime duplicating the path in min/max/between issues of nested schemas
+* smpZodDateTime coercion of strings now requires ISO 8601 (DateTime.fromISO) instead of new Date()
 
 ## 2.0.0
 * Split modules

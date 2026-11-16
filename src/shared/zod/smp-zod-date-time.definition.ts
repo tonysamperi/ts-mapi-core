@@ -1,4 +1,4 @@
-import z, {ZodTypeDef, ZodIssueCode, ParseInput, ParseContext, ParseReturnType, ZodParsedType} from "zod";
+import z, {ZodTypeDef, ZodIssueCode, ParseInput, ParseReturnType, ZodParsedType, type IssueData} from "zod";
 import {DateTime} from "ts-luxon";
 
 interface SmpZodDateTimeCheck {
@@ -32,75 +32,65 @@ export class SmpZodDateTime extends z.ZodType<DateTime, SmpZodDateTimeDef> {
         let val = ctx.data;
 
         if (this._def.coerce) {
-            val = this._coerceToDateTime(val); // Assuming _coerceToDateTime is implemented
-            if (!(val instanceof DateTime) || !val.isValid) {
-                z.addIssueToContext(ctx, { // Changed from ctx.addIssue
+            val = this._coerceToDateTime(val);
+            if (!this._isValidDateTime(val)) {
+                z.addIssueToContext(ctx, {
                     code: ZodIssueCode.invalid_type,
-                    expected: ZodParsedType.date, // Using ZodParsedType.date
+                    expected: ZodParsedType.date,
                     received: ZodParsedType.unknown,
-                    path: ctx.path,
                     message: "Invalid date format"
                 });
                 return z.INVALID;
             }
         }
 
-        // Ensure val is a DateTime object before proceeding with checks if not coercing
-        // or if coercion failed to produce a DateTime (though the above check should catch it)
-        if (!(val instanceof DateTime) || !val.isValid) {
-            // If not coercing, and it's not a valid DateTime, this is an invalid type.
-            // This specific case might be implicitly handled if !this._def.coerce means val must already be DateTime.
-            // However, adding an explicit check if not coercing can be safer.
+        if (!this._isValidDateTime(val)) {
             if (!this._def.coerce) {
                 z.addIssueToContext(ctx, {
                     code: ZodIssueCode.invalid_type,
-                    expected: ZodParsedType.date, // Or a custom type name if you prefer
-                    received: ZodParsedType.unknown, // Or more specific if possible
-                    path: ctx.path,
+                    expected: ZodParsedType.date,
+                    received: ZodParsedType.unknown,
                     message: "Input must be a valid DateTime object"
                 });
                 return z.INVALID;
             }
-            // If coercion was supposed to happen, and we still don't have a valid DateTime,
-            // the earlier check inside the `if (this._def.coerce)` block should have caught it.
         }
 
 
-        const checkMap: Record<SmpZodDateTimeCheck["kind"], (check: SmpZodDateTimeCheck, dateTimeVal: DateTime, parseCtx: ParseContext) => z.ZodIssue | undefined> = {
-            min: (check, dateTimeVal, parseCtx) => {
-                if (check.min && dateTimeVal < check.min) {
+        const checkMap: Record<SmpZodDateTimeCheck["kind"], (check: SmpZodDateTimeCheck, dateTimeVal: DateTime) => IssueData | undefined> = {
+            min: (check, dateTimeVal) => {
+                if (check.min && dateTimeVal.toMillis() < check.min.toMillis()) {
                     return {
                         code: ZodIssueCode.too_small,
-                        minimum: check.min.toMillis(), // Changed to number (milliseconds)
-                        type: "date",                   // Added type
+                        minimum: check.min.toMillis(),
+                        type: "date",
                         inclusive: true,
-                        message: check.message ?? `Date must be ≥ ${check.min.toISODate()}`,
-                        path: parseCtx.path
+                        message: check.message ?? `Date must be ≥ ${check.min.toISODate()}`
                     };
                 }
                 return undefined;
             },
-            max: (check, dateTimeVal, parseCtx) => {
-                if (check.max && dateTimeVal > check.max) {
+            max: (check, dateTimeVal) => {
+                if (check.max && dateTimeVal.toMillis() > check.max.toMillis()) {
                     return {
                         code: ZodIssueCode.too_big,
-                        maximum: check.max.toMillis(), // Changed to number (milliseconds)
-                        type: "date",                   // Added type
-                        inclusive: true,                // Added inclusive
-                        message: check.message ?? `Date must be ≤ ${check.max.toISODate()}`,
-                        path: parseCtx.path
+                        maximum: check.max.toMillis(),
+                        type: "date",
+                        inclusive: true,
+                        message: check.message ?? `Date must be ≤ ${check.max.toISODate()}`
                     };
                 }
                 return undefined;
             },
-            between: (check, dateTimeVal, parseCtx) => {
-                if (check.min && check.max && (dateTimeVal < check.min || dateTimeVal > check.max)) {
+            between: (check, dateTimeVal) => {
+                if (
+                    check.min
+                    && check.max
+                    && (dateTimeVal.toMillis() < check.min.toMillis() || dateTimeVal.toMillis() > check.max.toMillis())
+                ) {
                     return {
                         code: ZodIssueCode.custom,
-                        message: check.message ?? `Date must be between ${check.min.toISODate()} and ${check.max.toISODate()}`,
-                        path: parseCtx.path
-                        // Optionally, add params for more structured error data:
-                        // params: { min: check.min.toISO(), max: check.max.toISO() }
+                        message: check.message ?? `Date must be between ${check.min.toISODate()} and ${check.max.toISODate()}`
                     };
                 }
                 return undefined;
@@ -108,28 +98,19 @@ export class SmpZodDateTime extends z.ZodType<DateTime, SmpZodDateTimeDef> {
         };
 
         for (const check of this._def.checks) {
-            // Ensure val is a DateTime before passing to checkMap functions
-            // This is crucial if coercion didn't happen or didn't result in a DateTime.
-            // The earlier checks should ideally ensure 'val' is a valid DateTime if it reached this point.
-            if (val instanceof DateTime && val.isValid) {
-                const issueData = checkMap[check.kind](check, val, ctx);
+            if (this._isValidDateTime(val)) {
+                const issueData = checkMap[check.kind](check, val);
                 if (issueData) {
-                    z.addIssueToContext(ctx, issueData); // Changed from ctx.addIssue
+                    z.addIssueToContext(ctx, issueData);
                 }
-            }
-            else {
-                // This case should ideally be caught earlier (e.g., if not coercing, or if coercion failed)
-                // If it reaches here, it implies a logic flaw or an unexpected state.
-                // For robustness, you might add a generic invalid_type issue here if 'val' is not a DateTime.
-                // However, the checks at the beginning of _parse should prevent this.
             }
         }
 
-        if (ctx.common.issues.length > 0) { // Check ctx.common.issues.length
+        if (ctx.common.issues.length > 0) {
             return z.INVALID;
         }
 
-        return z.OK(val as DateTime); // Ensure the 'val' returned by OK is typed as DateTime
+        return z.OK(val);
     }
 
     between(min: DateTime, max: DateTime, message?: string): this {
@@ -160,20 +141,28 @@ export class SmpZodDateTime extends z.ZodType<DateTime, SmpZodDateTimeDef> {
         }) as this;
     }
 
-    // Coercion helper function (ensure it's robust as discussed previously)
-    private _coerceToDateTime(val: any): DateTime | null {
-        if (val instanceof DateTime && val.isValid) {
-            return val;  // Already valid DateTime
+    private _coerceToDateTime(val: unknown): DateTime | null {
+        if (this._isValidDateTime(val)) {
+            return val;
         }
 
-        const coercionMap: Record<string, () => DateTime | null> = {
-            string: () => DateTime.fromJSDate(new Date(val)),
-            number: () => DateTime.fromMillis(val),
-            object: () => DateTime.fromJSDate(val),
-            default: () => null
-        };
+        if (typeof val === "string") {
+            return DateTime.fromISO(val);
+        }
 
-        return (coercionMap[typeof val] || coercionMap.default)();
+        if (typeof val === "number") {
+            return DateTime.fromMillis(val);
+        }
+
+        if (val instanceof Date) {
+            return DateTime.fromJSDate(val).toUTC();
+        }
+
+        return null;
+    }
+
+    private _isValidDateTime(val: unknown): val is DateTime {
+        return DateTime.isDateTime(val) && val.isValid;
     }
 }
 
