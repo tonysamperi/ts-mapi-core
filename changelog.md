@@ -1,3 +1,7 @@
+## 2.1.0
+* Add SmpFirebaseClient, allowing multi instance and tenant support (SmpFirebaseService now extends it)
+* Add SmpFirebaseClient#addIdTokenChangedCallback
+
 ## 2.0.0
 * Split modules
 * Add toLowerCase to email schema
