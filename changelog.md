@@ -1,6 +1,7 @@
 ## 2.1.0
 * Add SmpFirebaseClient, allowing multi instance and tenant support (SmpFirebaseService now extends it)
 * Add SmpFirebaseClient#addIdTokenChangedCallback
+* Add timeout option to SmpHttpTwoConfig
 
 ## 2.0.0
 * Split modules

@@ -99,6 +99,13 @@ export class SmpHttpTwoService {
 
         processedConfig.url = this.mergeQueryParams(processedConfig.url, processedConfig.queryParams);
 
+        const controller = new AbortController();
+        let timeoutId: ReturnType<typeof setTimeout> | undefined;
+        if (typeof processedConfig.timeout === "number" && processedConfig.timeout > 0) {
+            timeoutId = setTimeout(() => controller.abort(), processedConfig.timeout);
+        }
+
+        opts.signal = controller.signal;
 
         return fetch(processedConfig.url, opts)
             .then((res) => this._preprocessResponse(config, res))
@@ -139,6 +146,20 @@ export class SmpHttpTwoService {
                         body: rejectValue
                     } as HttpException);
                 });
+            }).catch((err) => {
+                if (err && (err.name === 'AbortError' || err.type === 'aborted')) {
+                    return Promise.reject({
+                        status: SmpHttpStatusCodes.RequestTimeout,
+                        message: 'Request Timeout',
+                        body: null
+                    } as HttpException);
+                }
+
+                return Promise.reject(err);
+            }).finally(() => {
+                if (typeof timeoutId !== 'undefined') {
+                    clearTimeout(timeoutId);
+                }
             });
     }
 
