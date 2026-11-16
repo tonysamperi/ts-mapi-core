@@ -3,5 +3,7 @@ export enum SmpRestVerbs {
     POST = "POST",
     PUT = "PUT",
     DELETE = "DELETE",
+    HEAD = "HEAD",
+    OPTIONS = "OPTIONS",
     PATCH = "PATCH"
 }

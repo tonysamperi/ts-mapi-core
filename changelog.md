@@ -7,6 +7,7 @@
 * Add SmpCrypto#generateUuidV4
 * Update @tonysamperi/krypto (dev) to ^1.2.0
 * Add SmpErrorResponseWithStackTrace
+* Add HEAD and OPTIONS to SmpRestVerbs
 
 ## 2.0.0
 * Split modules
