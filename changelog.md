@@ -8,6 +8,9 @@
 * Update @tonysamperi/krypto (dev) to ^1.2.0
 * Add SmpErrorResponseWithStackTrace
 * Add HEAD and OPTIONS to SmpRestVerbs
+* Fix SmpGenericResponse#serialize stripping "_" prefixed properties from data (also affects SmpErrorResponse)
+* Fix SmpGenericResponse.fromPlain: now returns the calling subclass and restores messages as SmpResponseMessage instances (also affects SmpErrorResponse)
+* Add SmpGenericResponse#clone (also SmpErrorResponse#clone)
 
 ## 2.0.0
 * Split modules

@@ -1,4 +1,5 @@
-import {Expose, instanceToPlain, plainToInstance, Transform} from "class-transformer";
+import "reflect-metadata";
+import {Expose, instanceToPlain, plainToInstance, Transform, Type} from "class-transformer";
 //
 import {SmpGenericResponseBase} from "./smp-generic-response-base.interface.js";
 import {SmpResponseMessage} from "./smp-response-message.class.js";
@@ -12,6 +13,7 @@ export class SmpGenericResponse<T, U = SmpGenericResponseBase> implements SmpGen
     }
 
     @Expose()
+    @Type(() => SmpResponseMessage)
     @Transform(({value}) => (value?.length ? value : void 0))
     get messages(): SmpResponseMessage[] | void {
         return this._messages;
@@ -30,9 +32,14 @@ export class SmpGenericResponse<T, U = SmpGenericResponseBase> implements SmpGen
     }
 
     static fromPlain(plain: unknown) {
-        return plainToInstance(SmpGenericResponse, plain);
+        return plainToInstance(this, plain);
     }
 
+    clone(): this {
+        const responseClass = this.constructor as typeof SmpGenericResponse;
+
+        return responseClass.fromPlain(this.serialize()) as this;
+    }
 
     isError(): boolean {
         return !this.isSuccess();
@@ -43,8 +50,11 @@ export class SmpGenericResponse<T, U = SmpGenericResponseBase> implements SmpGen
     }
 
     serialize(): U {
-        return instanceToPlain(this, {
-            excludePrefixes: ["_"]
-        }) as U;
+        return {
+            ...instanceToPlain(this, {
+                excludePrefixes: ["_"]
+            }),
+            data: instanceToPlain(this).data
+        } as U;
     }
 }

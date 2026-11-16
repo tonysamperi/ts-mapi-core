@@ -4,9 +4,18 @@ import {SmpResponseMessageBase} from "./smp-response-message-base.interface.js";
 import {SmpResponseMessageTypes} from "./smp-response-message-types.enum.js";
 
 export class SmpResponseMessage implements SmpResponseMessageBase {
+
+    set message(value: string) {
+        this._message = value;
+    }
+
     @Expose()
     get message(): string {
         return this._message;
+    }
+
+    set type(value: SmpResponseMessageTypes) {
+        this._type = value;
     }
 
     @Expose()
