@@ -11,6 +11,7 @@
 * Fix SmpGenericResponse#serialize stripping "_" prefixed properties from data (also affects SmpErrorResponse)
 * Fix SmpGenericResponse.fromPlain: now returns the calling subclass and restores messages as SmpResponseMessage instances (also affects SmpErrorResponse)
 * Add SmpGenericResponse#clone (also SmpErrorResponse#clone)
+* Add SmpRegularExpressions.NO_HTML
 
 ## 2.0.0
 * Split modules
