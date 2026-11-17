@@ -40,18 +40,27 @@ export abstract class SmpAbstractRxjsTtlCacheStrategy extends SmpAbstractCacheSt
         return this._removeRaw(key);
     }
 
-    write<T = unknown>(key: string, value: T, ttl?: number): Observable<void> {
+    write<T = any>(key: string, value: T, ttl?: number): Observable<void> {
+        let obs$: Observable<void>;
+
         if (isNaN(+ttl!) || +ttl! <= 0) {
-            return this._writeRaw(key, value, ttl);
+            obs$ = this._writeRaw(key, value, ttl);
+        }
+        else {
+            const expiry = DateTime.now().ts + ttl! * 1000;
+            const wrappedValue: SmpCachedValue<T> = {
+                value,
+                expiry
+            };
+            obs$ = this._writeRaw(key, wrappedValue, ttl);
         }
 
-        const expiry = DateTime.now().ts + ttl! * 1000;
-        const wrappedValue: SmpCachedValue<T> = {
-            value,
-            expiry
-        };
+        // Fire-and-forget
+        obs$.subscribe({
+            error: (err) => console.error(`${this.constructor.name}::write: error occurred`, err)
+        });
 
-        return this._writeRaw(key, wrappedValue, ttl);
+        return obs$;
     }
 
     protected _isSmpCachedValue<T>(value: unknown): value is SmpCachedValue<T> {

@@ -12,7 +12,7 @@ async function doBuild() {
 
     await tsup.build({
         clean: !0,
-        entry: ["src/**/*.ts"],
+        entry: ["src/*.ts"],
         format: "esm",
         outDir: "dist/esm",
         bundle: !0,
@@ -28,7 +28,7 @@ async function doBuild() {
 
     await tsup.build({
         clean: !0,
-        entry: ["src/index.cts"],
+        entry: ["src/*.ts"],
         format: "cjs",
         outDir: "dist/cjs",
         target: "esnext",

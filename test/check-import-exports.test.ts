@@ -2,7 +2,7 @@ import fs from "fs";
 import {sync} from "glob";
 import {resolve} from "path";
 
-const pattern = /^(?:import|export)\s+(?:[^'"]+?\s+from\s+|\*\s+from\s+)?["'](\.\/[^'"]*?)(?<!\.js)["']/g;
+const PATTERN = /^(?:\s*)(?:import|export)\s+(?:[^'"]+?\s+from\s+|\*\s+from\s+)?["'](\.{1,2}\/[^'"]*?)(?<!\.js)["']/gm;
 
 describe("Import/Export path endings", () => {
     it("should only use .js extension in relative import/export paths", () => {
@@ -16,7 +16,7 @@ describe("Import/Export path endings", () => {
             const lines = content.split("\n");
 
             lines.forEach((line, index) => {
-                const matches = line.match(pattern);
+                const matches = line.match(PATTERN);
                 if (matches) {
                     violations.push({ file: relativeFile, line: index + 1, content: line.trim() });
                 }

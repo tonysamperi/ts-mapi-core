@@ -3,7 +3,8 @@ export * from "./smp-error-response.class.js";
 export * from "./smp-error-response-create-opts.interface.js";
 export * from "./smp-generic-response.class.js";
 export * from "./smp-generic-response-base.interface.js";
-export * from "./smp-healtz.const.js";
+export * from "./smp-generic-response-create-opts.interface.js";
+export * from "./smp-healthz.const.js";
 export * from "./smp-response-message.class.js";
 export * from "./smp-response-message-base.interface.js";
 export * from "./smp-response-message-types.enum.js"

@@ -4,5 +4,6 @@ export * from "./smp-filter-exception.class.js";
 export * from "./smp-sid.class.js";
 export * from "./smp-noop.function.js";
 export * from "./smp-regular-expressions.class.js";
+export * from "./smp-with-date-time-as-date.type.js";
 //
 export * from "./cache/index.js";

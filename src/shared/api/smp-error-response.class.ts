@@ -7,8 +7,13 @@ import {SmpResponseMessage} from "./smp-response-message.class.js";
 
 export class SmpErrorResponse<T = any> extends SmpGenericResponse<T, SmpGenericResponseBase & Pick<SmpErrorResponse, "errorCode" | "timestamp" | "status">> {
 
-    static get DEFAULT_MESSAGES() {
+    static get DEFAULT_MESSAGES(): SmpResponseMessage[] {
         return [new SmpResponseMessage("GENERIC_ERROR")];
+    }
+
+    // This shouldn't be necessary, but it's a bug https://github.com/typestack/class-transformer/issues/1807
+    set errorCode(value: number | string) {
+        this._errorCode = value;
     }
 
     @Expose()
@@ -18,6 +23,11 @@ export class SmpErrorResponse<T = any> extends SmpGenericResponse<T, SmpGenericR
 
     get status(): number {
         return this._status;
+    }
+
+    // This shouldn't be necessary, but it's a bug https://github.com/typestack/class-transformer/issues/1807
+    set timestamp(newValue: number) {
+        this._timestamp = newValue;
     }
 
     @Expose()

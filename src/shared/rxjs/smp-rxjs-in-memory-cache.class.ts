@@ -33,12 +33,10 @@ export class SmpRxjsInMemoryCache extends SmpAbstractRxjsTtlCacheStrategy {
         });
     }
 
-    protected _writeRaw(key: string, value: unknown): Observable<void> {
-        return defer(() => {
-            this._staticSelf._storage.set(key, value);
+    protected _writeRaw(key: string, value: any): Observable<void> {
+        this._staticSelf._storage.set(key, value);
 
-            return of(void 0);
-        });
+        return of(void 0);
     }
 }
 

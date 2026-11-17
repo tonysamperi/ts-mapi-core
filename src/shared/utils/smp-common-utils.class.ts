@@ -1,6 +1,9 @@
+import isEqual from "lodash-es/isEqual";
+//
+import {SmpRestVerbs} from "../api/smp-rest-verbs.enum.js";
+//
 import {smpAsciiWords} from "./smp-ascii-words.function.js";
 import {SmpUnicodeWords} from "./smp-unicode-words.class.js";
-import {SmpRestVerbs} from "../api/smp-rest-verbs.enum.js";
 
 export class SmpCommonUtils {
     /**
@@ -100,6 +103,14 @@ export class SmpCommonUtils {
         link.click();
     }
 
+    static fixDecimalPrecision(value: number, precision: number = 2): number {
+        this.assertIsNumber(value);
+        this.assertIsNumber(precision);
+        const p = Math.max(0, Math.trunc(precision));
+        const factor = 10 ** p;
+        return Math.round((value + Number.EPSILON) * factor) / factor;
+    }
+
     static generateRandomHexString(length: number = 12): string {
         const chars = "0123456789abcdef";
         let hexString = "";
@@ -174,65 +185,7 @@ export class SmpCommonUtils {
      * @returns boolean
      */
     static isEqual(value1: any, value2: any): boolean {
-        function areArraysEqual() {
-            // Check length
-            if (value1.length !== value2.length) {
-                return false;
-            }
-            // Check each item in the array
-            for (let i = 0; i < value1.length; i++) {
-                if (!SmpCommonUtils.isEqual(value1[i], value2[i])) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        function areObjectsEqual() {
-            if (Object.keys(value1).length !== Object.keys(value2).length) {
-                return false;
-            }
-
-            // Check each item in the object
-            for (const key in value1) {
-                if (Object.prototype.hasOwnProperty.call(value1, key)) {
-                    if (!SmpCommonUtils.isEqual(value1[key], value2[key])) {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        function areFunctionsEqual() {
-            return value1.toString() === value2.toString();
-        }
-
-        function arePrimativesEqual() {
-            return value1 === value2;
-        }
-
-        // Get the object type
-        const type = this.getType(value1);
-
-        // If the two items are not the same type, return false
-        if (type !== this.getType(value2)) {
-            return false;
-        }
-
-        // Compare based on type
-        if (type === "array") {
-            return areArraysEqual();
-        }
-        if (type === "object") {
-            return areObjectsEqual();
-        }
-        if (type === "function") {
-            return areFunctionsEqual();
-        }
-        return arePrimativesEqual();
+        return isEqual(value1, value2);
     }
 
     static isFormField(el: HTMLElement): boolean {
@@ -314,11 +267,15 @@ export class SmpCommonUtils {
 
     static mapObjectKeys<T extends string = string>(
         obj: Record<T, any>,
-        callback: (key: string, value: any) => any
+        callback: (key: string, value: any) => string
     ): Record<string, any> {
-        return Object.entries(obj).reduce((acc: Record<string, any>, [key, value]) => {
-            acc[key] = callback.call(null, key, value);
+        if (!this.isObject(obj)) {
+            return {};
+        }
 
+        return Object.entries(obj).reduce((acc: Record<string, any>, [key, value]) => {
+            const newKey = callback(key, value);
+            acc[newKey] = value;
             return acc;
         }, {});
     }
@@ -409,6 +366,20 @@ export class SmpCommonUtils {
         return typeof html === typeof "" ? html.replace(/(<!--.*?-->)|(<!--[\S\s]+?-->)|(<!--[\S\s]*?$)/g, "") : html;
     }
 
+    /**
+     * Strips all HTML from a string.
+     * @param html
+     * @param decodeEntities should decode entities? Default TRUE
+     */
+    static stripHtml(html: string, decodeEntities: boolean = !0): string {
+        this.assertIsString(html);
+
+        const noTags = html.replace(/<[^>]*>?/g, "");
+        const decoded = decodeEntities ? this._decodeHtmlEntities(noTags) : noTags;
+
+        return decoded.replace(/\s+/g, " ").trim();
+    }
+
     static submitFakeForm<T extends object = object>({
                                                          action,
                                                          method = SmpRestVerbs.POST,
@@ -463,6 +434,36 @@ export class SmpCommonUtils {
             return result || [];
         }
         return string.match(pattern) || [];
+    }
+
+    protected static _decodeHtmlEntities(value: string): string {
+        const entitiesMap: Record<string, string> = {
+            amp: "&",
+            apos: "'",
+            euro: "€",
+            gt: ">",
+            lt: "<",
+            nbsp: " ",
+            quot: "\""
+        };
+
+        return value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (match, entity: string) => {
+            const normalisedEntity = entity.toLowerCase();
+
+            if (normalisedEntity.startsWith("#x")) {
+                const parsedCode = Number.parseInt(normalisedEntity.slice(2), 16);
+
+                return Number.isNaN(parsedCode) ? match : String.fromCodePoint(parsedCode);
+            }
+
+            if (normalisedEntity.startsWith("#")) {
+                const parsedCode = Number.parseInt(normalisedEntity.slice(1), 10);
+
+                return Number.isNaN(parsedCode) ? match : String.fromCodePoint(parsedCode);
+            }
+
+            return entitiesMap[normalisedEntity] || match;
+        });
     }
 
 }
