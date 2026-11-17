@@ -1,6 +1,7 @@
 export * from "./smp-api-common-utils.class.js";
 export * from "./smp-error-response.class.js";
 export * from "./smp-error-response-create-opts.interface.js";
+export * from "./smp-error-response-with-stack-trace.class.js";
 export * from "./smp-generic-response.class.js";
 export * from "./smp-generic-response-base.interface.js";
 export * from "./smp-generic-response-create-opts.interface.js";

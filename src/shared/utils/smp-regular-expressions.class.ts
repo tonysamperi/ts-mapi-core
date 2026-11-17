@@ -30,6 +30,10 @@ export class SmpRegularExpressions {
         return /[^\p{Emoji_Presentation}|\p{P}]/gu;
     }
 
+    static get NO_HTML(): RegExp {
+        return /^[^<>]*$/u;
+    }
+
     static get PHONE_NUMBER(): RegExp {
         // This is now the same on EVA having now min ["+1 " + 4 digits] (7) and max ["+123 " + 15 digits] (20)
         return /^(\+\d{1,4}\s)(\d{4,15})$/;

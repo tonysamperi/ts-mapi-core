@@ -1,3 +1,25 @@
+## 2.1.0
+* Add SmpFirebaseClient, allowing multi instance and tenant support (SmpFirebaseService now extends it)
+* Add SmpFirebaseClient#addIdTokenChangedCallback
+* Add timeout option to SmpHttpTwoConfig
+* Fix smpZodDateTime duplicating the path in min/max/between issues of nested schemas
+* smpZodDateTime coercion of strings now requires ISO 8601 (DateTime.fromISO) instead of new Date()
+* Add SmpCrypto#generateUuidV4
+* Update @tonysamperi/krypto (dev) to ^1.2.0
+* Add SmpErrorResponseWithStackTrace
+* Add HEAD and OPTIONS to SmpRestVerbs
+* Fix SmpGenericResponse#serialize stripping "_" prefixed properties from data (also affects SmpErrorResponse)
+* Fix SmpGenericResponse.fromPlain: now returns the calling subclass and restores messages as SmpResponseMessage instances (also affects SmpErrorResponse)
+* Add SmpGenericResponse#clone (also SmpErrorResponse#clone)
+* Add SmpRegularExpressions.NO_HTML
+* Update ts-luxon to ^6.4.0 (peer and dev)
+* Update @tonysamperi/logger (dev) to ^2.1.1
+* Add ./eslint export (smpEslintPlugin, smpEslintRecommendedConfig, smpMemberOrderingRules, smpNamingConventionRules)
+* Switch from lodash-es to es-toolkit for SmpCommonUtils.isEqual
+* BREAKING: peer dependency firebase is now ^12.9.0 (dev ^12.19.0)
+* SmpCommonUtils#stripHtml now relies on striptags and html-entities: decodes all named entities, keeps text containing standalone "<" or ">", handles ">" inside attribute values
+* Remove SmpCommonUtils#_decodeHtmlEntities
+
 ## 2.0.0
 * Split modules
 * Add toLowerCase to email schema

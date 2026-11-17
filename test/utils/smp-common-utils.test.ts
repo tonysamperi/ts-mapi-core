@@ -168,6 +168,31 @@ describe("SmpCommonUtils", () => {
             expect(SmpCommonUtils.isEqual(set1, set3)).toBe(false);
         });
 
+        it("should handle NaN, typed arrays and symbol keys", () => {
+            const key = Symbol("key");
+
+            expect(SmpCommonUtils.isEqual(NaN, NaN)).toBe(true);
+            expect(SmpCommonUtils.isEqual(new Uint8Array([1, 2]), new Uint8Array([1, 2]))).toBe(true);
+            expect(SmpCommonUtils.isEqual(new Uint8Array([1]), new Int8Array([1]))).toBe(false);
+            expect(SmpCommonUtils.isEqual({[key]: 1}, {[key]: 1})).toBe(true);
+            expect(SmpCommonUtils.isEqual({[key]: 1}, {[key]: 2})).toBe(false);
+        });
+
+        it("should consider instances of different classes as different", () => {
+            class First {
+                constructor(public value: number) {
+                }
+            }
+
+            class Second {
+                constructor(public value: number) {
+                }
+            }
+
+            expect(SmpCommonUtils.isEqual(new First(1), new First(1))).toBe(true);
+            expect(SmpCommonUtils.isEqual(new First(1), new Second(1))).toBe(false);
+        });
+
         it("should fix decimal precision", () => {
             expect(SmpCommonUtils.fixDecimalPrecision(1.005)).toBe(1.01);
             expect(SmpCommonUtils.fixDecimalPrecision(2.675)).toBe(2.68);

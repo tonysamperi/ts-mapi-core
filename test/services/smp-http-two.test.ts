@@ -2,7 +2,7 @@
 import {resolve} from "path";
 import {setupPolly} from "setup-polly-jest";
 //
-import {SmpHttpTwoService, SmpRestVerbs, SmpErrorResponse} from "../../src";
+import {SmpHttpTwoService, SmpRestVerbs, SmpErrorResponse, SmpResponseMessage} from "../../src";
 
 const localData = {
     urls: {
@@ -83,7 +83,8 @@ describe("SmpHttpTwoService", () => {
         //
         expect(response).toBeInstanceOf(SmpErrorResponse);
         expect(response.errorCode).toBe(localData.sampleError.errorCode);
-        expect(response.messages).toEqual(localData.sampleError.messages);
+        expect(response.messages?.[0]).toBeInstanceOf(SmpResponseMessage);
+        expect(response.messages).toMatchObject(localData.sampleError.messages);
         expect(response.timestamp).toBe(localData.sampleError.timestamp);
     });
 

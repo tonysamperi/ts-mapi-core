@@ -44,3 +44,6 @@ Thumbs.db
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# This project uses Yarn, so npm lockfiles must not be tracked
+package-lock.json

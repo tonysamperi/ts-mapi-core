@@ -8,4 +8,5 @@ export interface SmpFirebaseServiceConfig {
     logger?: SmpLoggerMethods;
     popupFallsBackToRedirect?: boolean;
     socialLoginUxMode?: SmpSocialSignInUxModes;
+    tenantId?: string;
 }

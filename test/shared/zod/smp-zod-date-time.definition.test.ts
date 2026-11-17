@@ -99,6 +99,30 @@ describe("smpZodDateTime", () => {
         expect(result.success).toBe(false);
     });
 
+    it("keeps the correct nested path for min() and max() errors", () => {
+        const schema = z.object({
+            date: smpZodDateTime().min(today).max(today)
+        });
+
+        const minResult = schema.safeParse({
+            date: yesterday
+        });
+        const maxResult = schema.safeParse({
+            date: tomorrow
+        });
+
+        expect(minResult.success).toBe(false);
+        expect(maxResult.success).toBe(false);
+
+        if (!minResult.success) {
+            expect(minResult.error.issues[0].path).toEqual(["date"]);
+        }
+
+        if (!maxResult.success) {
+            expect(maxResult.error.issues[0].path).toEqual(["date"]);
+        }
+    });
+
     it("applies between() correctly", () => {
         const schema = smpZodDateTime().between(today, tomorrow);
         const within = today.plus({hours: 12});
@@ -133,12 +157,8 @@ describe("smpZodDateTime vs smpZodDateTimeOriginal", () => {
 
     it("applies min() and max() equally", () => {
         const compareToDto = DateTime.now();
-        const resultOriginal = originalImplSchema.safeParse({
-            date: compareToDto
-        });
-        const resultNew = newImplSchema.safeParse({
-            date: compareToDto
-        });
+        const resultOriginal = originalImplSchema.safeParse(compareToDto);
+        const resultNew = newImplSchema.safeParse(compareToDto);
 
         expect(resultOriginal.success).toBe(resultNew.success);
     });

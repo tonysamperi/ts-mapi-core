@@ -10,7 +10,7 @@ export default {
         "^.+\\.js$": "babel-jest"
     },
     transformIgnorePatterns: [
-        "/node_modules/(?!lodash-es)"
+        "/node_modules/(?!es-toolkit)"
     ],
     extensionsToTreatAsEsm: [".ts"],
     moduleNameMapper: {

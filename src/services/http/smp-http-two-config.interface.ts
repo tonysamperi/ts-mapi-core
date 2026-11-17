@@ -12,4 +12,6 @@ export interface SmpHttpTwoConfig<T = any> {
     queryParams?: Record<string, Exclude<SmpPrimitive, symbol> | Exclude<SmpPrimitive, symbol>[]>;
     transform?: boolean;
     responseType?: "blob" | "arraybuffer" | "text" | "json" | "jsonp";
+    /** Timeout in milliseconds after which the request will be aborted */
+    timeout?: number;
 }
