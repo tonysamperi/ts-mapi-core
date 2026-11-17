@@ -16,6 +16,7 @@
 * Update @tonysamperi/logger (dev) to ^2.1.1
 * Add ./eslint export (smpEslintPlugin, smpEslintRecommendedConfig, smpMemberOrderingRules, smpNamingConventionRules)
 * Switch from lodash-es to es-toolkit for SmpCommonUtils.isEqual
+* BREAKING: peer dependency firebase is now ^12.9.0 (dev ^12.19.0)
 
 ## 2.0.0
 * Split modules
