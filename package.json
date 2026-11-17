@@ -21,6 +21,16 @@
         "default": "./dist/esm/index.js"
       }
     },
+    "./eslint": {
+      "import": {
+        "types": "./dist/esm/eslint.d.ts",
+        "default": "./dist/esm/eslint.js"
+      },
+      "require": {
+        "types": "./dist/cjs/eslint.d.cts",
+        "default": "./dist/cjs/eslint.cjs"
+      }
+    },
     "./dynamo": {
       "import": {
         "types": "./dist/esm/dynamo.d.ts",
@@ -67,6 +77,9 @@
     "*": {
       "": [
         "./dist/cjs/index.d.cts"
+      ],
+      "eslint": [
+        "./dist/cjs/eslint.d.cts"
       ],
       "dynamo": [
         "./dist/cjs/dynamo.d.cts"
