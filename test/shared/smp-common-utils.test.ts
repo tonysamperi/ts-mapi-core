@@ -81,4 +81,25 @@ describe("SmpCommonUtils", () => {
       </div>`;
         expect(SmpCommonUtils.stripHtml(input9).trim()).toBe("Testo su più righe");
     });
+
+    it("should decode named entities beyond the basic ones", () => {
+        expect(SmpCommonUtils.stripHtml("<p>Qualit&agrave; ed estetica</p>")).toBe("Qualità ed estetica");
+        expect(SmpCommonUtils.stripHtml("Caff&egrave; &copy; 2026 &hellip;")).toBe("Caffè © 2026 …");
+        expect(SmpCommonUtils.stripHtml("&pound;5 &amp; &yen;3")).toBe("£5 & ¥3");
+        expect(SmpCommonUtils.stripHtml("&#65;&#x42;&#67;")).toBe("ABC");
+    });
+
+    it("should not decode entities when requested", () => {
+        expect(SmpCommonUtils.stripHtml("<b>Caff&egrave;</b>", !1)).toBe("Caff&egrave;");
+    });
+
+    it("should keep text containing standalone angle brackets", () => {
+        expect(SmpCommonUtils.stripHtml("a < b and c > d")).toBe("a < b and c > d");
+        expect(SmpCommonUtils.stripHtml("5 > 3 and 2 < 4 but <b>bold</b>")).toBe("5 > 3 and 2 < 4 but bold");
+    });
+
+    it("should handle tag attributes containing a closing bracket", () => {
+        expect(SmpCommonUtils.stripHtml("<a title=\"a>b\">link</a>")).toBe("link");
+        expect(SmpCommonUtils.stripHtml("<a title='x>y' href=\"#\">link</a>")).toBe("link");
+    });
 });

@@ -17,6 +17,8 @@
 * Add ./eslint export (smpEslintPlugin, smpEslintRecommendedConfig, smpMemberOrderingRules, smpNamingConventionRules)
 * Switch from lodash-es to es-toolkit for SmpCommonUtils.isEqual
 * BREAKING: peer dependency firebase is now ^12.9.0 (dev ^12.19.0)
+* SmpCommonUtils#stripHtml now relies on striptags and html-entities: decodes all named entities, keeps text containing standalone "<" or ">", handles ">" inside attribute values
+* Remove SmpCommonUtils#_decodeHtmlEntities
 
 ## 2.0.0
 * Split modules

@@ -4265,11 +4265,13 @@ __metadata:
     eslint: "npm:^9.26.0"
     firebase: "npm:^12.19.0"
     glob: "npm:^11.1.0"
+    html-entities: "npm:^2.6.0"
     jest: "npm:~29.7.0"
     reflect-metadata: "npm:^0.2.2"
     replace-in-file: "npm:^8.3.0"
     rxjs: "npm:^7.5.6"
     setup-polly-jest: "npm:^0.11.0"
+    striptags: "npm:^3.2.0"
     ts-jest: "npm:^29.2.6"
     ts-luxon: "npm:^6.4.0"
     tslib: "npm:^2.8.1"
@@ -6430,6 +6432,13 @@ __metadata:
   dependencies:
     function-bind: "npm:^1.1.2"
   checksum: 10c0/3769d434703b8ac66b209a4cca0737519925bbdb61dd887f93a16372b14694c63ff4e797686d87c90f08168e81082248b9b028bad60d4da9e0d1148766f56eb9
+  languageName: node
+  linkType: hard
+
+"html-entities@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "html-entities@npm:2.6.0"
+  checksum: 10c0/7c8b15d9ea0cd00dc9279f61bab002ba6ca8a7a0f3c36ed2db3530a67a9621c017830d1d2c1c65beb9b8e3436ea663e9cf8b230472e0e413359399413b27c8b7
   languageName: node
   linkType: hard
 
@@ -9013,6 +9022,13 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 10c0/9681a6257b925a7fa0f285851c0e613cc934a50661fa7bb41ca9cbbff89686bb4a0ee366e6ecedc4daafd01e83eee0720111ab294366fe7c185e935475ebcecd
+  languageName: node
+  linkType: hard
+
+"striptags@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "striptags@npm:3.2.0"
+  checksum: 10c0/72c8eea03c04ca8522511caf44ffd2bde4b5f36cbeb5d43140906c0a7ee19e98b3341bf96370ccb643e55972587eafac772d4a3f7f526d3045c2cf36270511e6
   languageName: node
   linkType: hard
 
