@@ -15,6 +15,7 @@
 * Update ts-luxon to ^6.4.0 (peer and dev)
 * Update @tonysamperi/logger (dev) to ^2.1.1
 * Add ./eslint export (smpEslintPlugin, smpEslintRecommendedConfig, smpMemberOrderingRules, smpNamingConventionRules)
+* Switch from lodash-es to es-toolkit for SmpCommonUtils.isEqual
 
 ## 2.0.0
 * Split modules

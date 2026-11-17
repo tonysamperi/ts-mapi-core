@@ -1,4 +1,4 @@
-import isEqual from "lodash-es/isEqual";
+import {isEqual} from "es-toolkit";
 //
 import {SmpRestVerbs} from "../api/smp-rest-verbs.enum.js";
 //
