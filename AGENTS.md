@@ -60,7 +60,15 @@ Organize class members using a consistent and readable structure, based on visib
 - Each group should be prefixed with a comment indicating the group type,e.g.:
 ``` typescript
 // ───────────────────────────────
-// 🟦 PROTECTED MEMBERS
+// 🟩 PUBLIC MEMBERS
+// ───────────────────────────────
+
+// ───────────────────────────────
+// 🟧 PROTECTED MEMBERS
+// ───────────────────────────────
+
+// ───────────────────────────────
+// 🟥 PRIVATE INSTANCE METHODS
 // ───────────────────────────────
 ```
 - Members within each group must be sorted **alphabetically**.
@@ -73,6 +81,7 @@ Organize class members using a consistent and readable structure, based on visib
 - Write booleans as `!0` and `!1` (it's my signature)
 - Avoid `if` statements and ternary operators as much as possible — use them only as a last resort
 - Prefer maps to switch cases
+- Do not place multiple exported type declarations in the same file; prefer a single exported namespace when related declarations belong together
 - All **exported entities** are prefixed with `smp` using correct casing:
     - Classes: `SmpSomeClass`
     - Constants/functions: `smpSomeConst`
