@@ -4211,10 +4211,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonysamperi/logger@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@tonysamperi/logger@npm:2.0.0"
-  checksum: 10c0/3a161ef2dba615fd7ad57cb837789af102dec7db3ca817bf3d46481c5db3310329f235d91c26a3afb5e9c6b191e12d9986f36b9ac3c57c74a9677cb5739998be
+"@tonysamperi/logger@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@tonysamperi/logger@npm:2.1.1"
+  checksum: 10c0/e00b864e650f9313d04ad7e06039be1ac7f1b0798ade760a76b2c471c6b4ed0bdcbb7d232f761b6ce03fe380d455c861c7208fa50f5124c0a41b71cd9b63dfd6
   languageName: node
   linkType: hard
 
@@ -4230,7 +4230,7 @@ __metadata:
     "@pollyjs/persister-fs": "npm:^6.0.6"
     "@swc/core": "npm:^1.13.2"
     "@tonysamperi/krypto": "npm:^1.2.0"
-    "@tonysamperi/logger": "npm:^2.0.0"
+    "@tonysamperi/logger": "npm:^2.1.1"
     "@types/babel__preset-env": "npm:^7"
     "@types/jest": "npm:~29.5.14"
     "@types/lodash-es": "npm:^4.17.12"
@@ -4251,7 +4251,7 @@ __metadata:
     rxjs: "npm:^7.5.6"
     setup-polly-jest: "npm:^0.11.0"
     ts-jest: "npm:^29.2.6"
-    ts-luxon: "npm:^6.0.0"
+    ts-luxon: "npm:^6.4.0"
     tslib: "npm:^2.8.1"
     tsup: "npm:^8.4.0"
     typescript: "npm:~5.8.2"
@@ -4265,7 +4265,7 @@ __metadata:
     firebase: ^11.4.0
     reflect-metadata: ^0.2.2
     rxjs: ^7.5.6
-    ts-luxon: ^6.0.0
+    ts-luxon: ^6.4.0
     zod: ^3.24.4
   languageName: unknown
   linkType: soft
@@ -9216,10 +9216,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-luxon@npm:^6.0.0":
-  version: 6.1.0
-  resolution: "ts-luxon@npm:6.1.0"
-  checksum: 10c0/88ce9df1ae64100068b5a81b1c1c796c80c41dde54c38ea44138cbd9c61139e448371f001e90e3430ec8899a25c2234a940353ec9a09282478e6fd2c6697ec9b
+"ts-luxon@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "ts-luxon@npm:6.4.0"
+  checksum: 10c0/32a73e14ddb4350aa407ebf3234f11da25c8450e178374b785de87686639d016012c105517af5a40bdd5bc1424fb33bf26b5ca36bd553e36de5d008618d5f95c
   languageName: node
   linkType: hard
 
